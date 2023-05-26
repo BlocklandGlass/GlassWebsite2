@@ -25,7 +25,7 @@
     </head>
     <body>
         <div id="container">
-            <div class="head">
+            <div class="header">
                 <strong>🗞️ <a href="{{ route('news', ['2023-05-21'], false) }}">2023-05-21: Yes, we're back. No, you can't login yet</a></strong>
             </div>
             <div class="nav">

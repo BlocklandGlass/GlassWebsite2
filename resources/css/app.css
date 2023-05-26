@@ -27,7 +27,7 @@ body::-webkit-scrollbar {
   margin: 20px 0 20px 0;
 }
 
-.head {
+.header {
   padding: 20px;
   max-width: 1200px;
   background-color: #fff;
@@ -91,7 +91,6 @@ body::-webkit-scrollbar {
   margin: 4px;
   padding: 8px 12px;
   float: right;
-  display: none;
 }
 
 #userBtn > img {

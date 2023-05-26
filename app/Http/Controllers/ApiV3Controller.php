@@ -89,7 +89,7 @@ class ApiV3Controller extends Controller
         }
     }
 
-    /*
+    /**
      * TODO: Write function description.
      */
     public function download(): StreamedResponse|string
@@ -160,14 +160,14 @@ class ApiV3Controller extends Controller
                 $data['data'] = [];
 
                 $message = <<<'MESSAGE'
-2023-05-21<br>
-<spush><font:verdana bold:18>And we're back<spop><br>
-Your client has successfully connected to the new Glass website.<br>
-Searching for and downloading Glass add-ons both on the new website and in-game should now be operational.<br>
-Please note: The RTB Archive and other minor features are still in the process of being rewritten (so accessing them won't do anything), and if you aren't already aware, Glass Live isn't coming back either.<br>
-We will be issuing a client update in due course to remove any redundant features and to fix any known outstanding bugs since the last official update in May 2020.<br>
-- The Blockland Glass Team
-MESSAGE;
+                    2023-05-21<br>
+                    <spush><font:verdana bold:18>And we're back<spop><br>
+                    Your client has successfully connected to the new Glass website.<br>
+                    Searching for and downloading Glass add-ons both on the new website and in-game should now be operational.<br>
+                    Please note: The RTB Archive and other minor features are still in the process of being rewritten (so accessing them won't do anything), and if you aren't already aware, Glass Live isn't coming back either.<br>
+                    We will be issuing a client update in due course to remove any redundant features and to fix any known outstanding bugs since the last official update in May 2020.<br>
+                    - The Blockland Glass Team
+                    MESSAGE;
 
                 $data['data'][] = [
                     'type' => 'message',

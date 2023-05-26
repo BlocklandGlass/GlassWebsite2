@@ -90,7 +90,7 @@
     <p>
         <em>
             Jincux
-            <br/>
+            <br />
             Project Founder
         </em>
     </p>
