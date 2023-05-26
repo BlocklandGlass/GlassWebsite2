@@ -4,6 +4,12 @@
 
 @section('description', $addon->summary) {{-- FIXME: Not all add-ons will have a summary filled. --}}
 
+@if ($addon->no_index)
+    @section('head')
+        <meta name="robots" content="noindex">
+    @endsection
+@endif
+
 @section('subNav')
     <ul>
         <li><a href="{{ route('addons.boards', [], false) }}" class="navBtn">Boards</a></li><li><a href="{{ route('addons.rtb', [], false) }}" class="navBtn">RTB Archive</a></li>

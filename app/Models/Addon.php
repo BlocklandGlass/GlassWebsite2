@@ -23,6 +23,7 @@ class Addon extends Model
         'name',
         'summary',
         'description',
+        'no_index',
         'total_downloads',
         'web_downloads',
         'ingame_downloads',
@@ -45,7 +46,9 @@ class Addon extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [];
+    protected $casts = [
+        'no_index' => 'boolean',
+    ];
 
     /**
      * Get the add-on's board.
