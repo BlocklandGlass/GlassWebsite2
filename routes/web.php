@@ -24,11 +24,11 @@ Route::view('/addons', 'addons.index')->name('addons');
 Route::get('/addons/addon', function () {
     return redirect()->route('addons');
 });
-Route::get('/addons/addon/{id}', [AddonController::class, 'show'])->name('addons.addon');
+Route::get('/addons/addon/{id}', [AddonController::class, 'show'])->where('id', '\d+')->name('addons.addon');
 Route::get('/addons/download/{id}', function ($id) {
     return redirect()->route('addons.addon', ['id' => $id]);
-});
-Route::post('/addons/download/{id}', [AddonController::class, 'download'])->name('addons.download');
+})->where('id', '\d+');
+Route::post('/addons/download/{id}', [AddonController::class, 'download'])->where('id', '\d+')->name('addons.download');
 
 Route::get('/addons/boards', [AddonBoardGroupController::class, 'show'])->name('addons.boards');
 Route::view('/addons/rtb', 'addons.rtb.index')->name('addons.rtb');
@@ -36,7 +36,7 @@ Route::view('/addons/rtb', 'addons.rtb.index')->name('addons.rtb');
 Route::get('/addons/board', function () {
     return redirect()->route('addons.boards');
 });
-Route::get('/addons/board/{id}', [AddonBoardController::class, 'show'])->name('addons.board');
+Route::get('/addons/board/{id}', [AddonBoardController::class, 'show'])->where('id', '\d+')->name('addons.board');
 
 Route::view('/news', 'news.index')->name('news');
 
