@@ -141,8 +141,8 @@ class ApiV2Controller extends Controller
                         'name' => $name, // If the channel name does not match an add-on's version.json, the update won't be seen by Support_Updater.
                         'version' => $addonUpload->version,
                         'restartRequired' => $addonUpload->restart_required,
-                        'file' => route('api.v2.download', ['id' => $addon->id, 'type' => 'addon_update']),
-                        'changelog' => route('api.v2.changelog', ['id' => $addon->id]),
+                        'file' => str_ireplace('https://', 'http://', route('api.v2.download', ['id' => $addon->id, 'type' => 'addon_update'])), // Blockland must have these links returned as HTTP and Laravel Octane (which rewrites everything to HTTPS) makes it so we have to do it like this.
+                        'changelog' => str_ireplace('https://', 'http://', route('api.v2.changelog', ['id' => $addon->id])),
                     ],
                 ],
             ];
