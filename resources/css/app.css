@@ -91,6 +91,7 @@ body::-webkit-scrollbar {
   margin: 4px;
   padding: 8px 12px;
   float: right;
+  display: none;
 }
 
 #userBtn > img {
