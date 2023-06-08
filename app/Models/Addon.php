@@ -133,7 +133,7 @@ class Addon extends Model
     /**
      * Get the add-on's latest approved add-on upload.
      */
-    public function getLatestApprovedAddonUploadAttribute(): AddonUpload
+    public function getLatestApprovedAddonUploadAttribute(): AddonUpload|null
     {
         return $this->addon_uploads->where('review_status', 'approved')->sortByDesc('created_at')->first();
     }
