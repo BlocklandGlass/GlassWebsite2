@@ -58,13 +58,19 @@ class ApiV2Controller extends Controller
             $addon = Addon::where('id', $id)->first();
 
             if (! $addon) {
-                return '';
+                return ''; // TODO: Better error handling.
             }
 
             $addonUpload = $addon->latest_approved_addon_upload;
 
             if (! $addonUpload) {
-                return '';
+                return ''; // TODO: Better error handling.
+            }
+
+            $available = Storage::disk('addons')->exists($addonUpload->file_path);
+
+            if (! $available) {
+                return ''; // TODO: Better error handling.
             }
 
             $ipAddress = Request::ip();
@@ -123,6 +129,12 @@ class ApiV2Controller extends Controller
             $addonUpload = $addon->latest_approved_addon_upload;
 
             if (! $addonUpload) {
+                continue;
+            }
+
+            $available = Storage::disk('addons')->exists($addonUpload->file_path);
+
+            if (! $available) {
                 continue;
             }
 
