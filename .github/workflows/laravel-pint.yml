@@ -2,12 +2,12 @@ name: Laravel Pint
 on:
   pull_request:
     branches:
-      - main
+      - master
     paths:
       - '**.php'
   push:
     branches:
-      - main
+      - master
     paths:
       - '**.php'
 jobs:
