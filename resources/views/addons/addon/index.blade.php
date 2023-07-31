@@ -31,6 +31,44 @@
                 <img class="addonIcon" src="{{ asset('img/icons32/inbox_download.webp') }}" title="Downloads" alt="The add-on download count icon." /> {{ number_format($addon->total_downloads) }}
             </p>
         </div>
+        @if ($addon->addon_screenshots->isNotEmpty())
+            <div class="col-xs">
+                @if ($addon->addon_screenshots->count() < 3)
+                    <div class="row end-xs">
+                        @foreach ($addon->addon_screenshots->sortBy('display_order') as $addonScreenshot)
+                            @if ($loop->index % 3 == 0)
+                                </div><div class="row end-xs">
+                            @endif
+                            <div class="col-xs">
+                                <a href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                    <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="row end-xs">
+                        <div class="col-xs">
+                            <a href="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                <img src="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row end-xs">
+                        @foreach ($addon->addon_screenshots->sortBy('display_order')->skip(1) as $addonScreenshot)
+                            @if ($loop->index % 3 == 0)
+                                </div><div class="row end-xs">
+                            @endif
+                            <div class="col-xs">
+                                <a href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                    <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        @endif
     </div>
     <div class="row">
         <div class="col-xs">

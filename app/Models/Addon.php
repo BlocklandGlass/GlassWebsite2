@@ -67,6 +67,14 @@ class Addon extends Model
     }
 
     /**
+     * Get the add-on's screenshots.
+     */
+    public function addon_screenshots(): HasMany
+    {
+        return $this->HasMany(AddonScreenshot::class);
+    }
+
+    /**
      * Get the add-on's comments.
      */
     public function addon_comments(): HasMany
