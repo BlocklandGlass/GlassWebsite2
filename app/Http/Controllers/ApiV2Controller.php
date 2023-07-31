@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Addon;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -22,7 +21,7 @@ class ApiV2Controller extends Controller
      */
     public function changelog(): string
     {
-        $id = Request::get('id');
+        $id = request('id');
 
         $addon = Addon::where('id', $id)->first();
 
@@ -50,10 +49,10 @@ class ApiV2Controller extends Controller
      */
     public function download(): StreamedResponse|string
     {
-        $type = Request::get('type');
+        $type = request('type');
 
         if ($type === 'addon_update' || $type === 'addon_download') {
-            $id = Request::get('id');
+            $id = request('id');
 
             $addon = Addon::where('id', $id)->first();
 
@@ -73,7 +72,7 @@ class ApiV2Controller extends Controller
                 return ''; // TODO: Better error handling.
             }
 
-            $ipAddress = Request::ip();
+            $ipAddress = request()->ip();
 
             if ($type === 'addon_update') {
                 $addonUploadStatistic = $addonUpload->addStatistic('update', $ipAddress);
@@ -105,7 +104,7 @@ class ApiV2Controller extends Controller
     {
         $data = [];
 
-        $mods = Request::get('mods', '');
+        $mods = request('mods', '');
 
         if ($mods === '') {
             $data['status'] = 'error';
@@ -139,7 +138,7 @@ class ApiV2Controller extends Controller
             }
 
             $name = 'stable';
-            $legacy = Request::get('legacy', '');
+            $legacy = request('legacy', '');
 
             if ($legacy === '1' && $addon->id !== 11) {
                 $name = '*';

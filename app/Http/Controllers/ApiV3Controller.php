@@ -6,7 +6,6 @@ use App\Models\Addon;
 use App\Models\AddonBoard;
 use App\Models\AddonBoardGroup;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -70,8 +69,8 @@ class ApiV3Controller extends Controller
             '3.4 Player List',
         ];
 
-        if (Request::has('doc')) {
-            $doc = Request::get('doc');
+        if (request()->has('doc')) {
+            $doc = request('doc');
 
             if (! in_array($doc, $allowed)) {
                 return 'Invalid file.';
@@ -94,10 +93,10 @@ class ApiV3Controller extends Controller
      */
     public function download(): StreamedResponse|string
     {
-        $type = Request::get('type');
+        $type = request('type');
 
         if ($type === 'addon_update' || $type === 'addon_download') {
-            $id = Request::get('id');
+            $id = request('id');
 
             $addon = Addon::where('id', $id)->first();
 
@@ -117,7 +116,7 @@ class ApiV3Controller extends Controller
                 return ''; // TODO: Better error handling.
             }
 
-            $ipAddress = Request::ip();
+            $ipAddress = request()->ip();
 
             if ($type === 'addon_update') {
                 $addonUploadStatistic = $addonUpload->addStatistic('update', $ipAddress);
@@ -161,7 +160,7 @@ class ApiV3Controller extends Controller
             'status' => 'success',
         ];
 
-        switch (Request::get('call')) {
+        switch (request('call')) {
             case 'home':
                 $data['data'] = [];
 
@@ -212,8 +211,8 @@ class ApiV3Controller extends Controller
             case 'board':
                 $data['addons'] = [];
 
-                $page = Request::get('page', 1);
-                $id = Request::get('id');
+                $page = request('page', 1);
+                $id = request('id');
 
                 if ($id === 'rtb') {
                     // TODO: Finish RTB board.
@@ -255,7 +254,7 @@ class ApiV3Controller extends Controller
 
                 break;
             case 'addon':
-                $id = Request::get('id');
+                $id = request('id');
 
                 $addon = Addon::where('id', $id)->withTrashed()->first();
 
@@ -338,9 +337,9 @@ class ApiV3Controller extends Controller
             case 'search':
                 $data['results'] = [];
 
-                $name = trim(Request::get('name', ''));
-                $author = trim(Request::get('author', ''));
-                $boardId = trim(Request::get('board', ''));
+                $name = trim(request('name', ''));
+                $author = trim(request('author', ''));
+                $boardId = trim(request('board', ''));
 
                 $addons = Addon::where('name', 'like', '%'.$name.'%');
 

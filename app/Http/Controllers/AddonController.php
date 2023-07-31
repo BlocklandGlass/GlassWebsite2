@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Addon;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -50,7 +49,7 @@ class AddonController extends Controller
             abort(404);
         }
 
-        $ipAddress = Request::ip();
+        $ipAddress = request()->ip();
 
         $addonUploadStatistic = $addonUpload->addStatistic('web', $ipAddress);
 
