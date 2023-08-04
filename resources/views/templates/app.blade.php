@@ -17,7 +17,10 @@
 
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/flexboxgrid.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
+
+        @if (file_exists($path = public_path('css/app.min.css')))
+            <link rel="stylesheet" href="{{ asset('css/app.min.css') }}?crc={{ hash_file('crc32b', $path) }}">
+        @endif
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
