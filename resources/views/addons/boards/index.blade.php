@@ -35,7 +35,7 @@
                             <a href="{{ route('addons.board', ['id' => $addonBoard->id], false) }}">{{ $addonBoard->name }}</a>
                         </td>
                         <td>
-                            {{ number_format($addonBoard->approved_addons->count()) }}
+                            {{ number_format($addonBoard->approved_addons_count) }}
                         </td>
                     </tr>
                 @endforeach

@@ -16,6 +16,7 @@ class AddonBoardController extends Controller
 
         return view('addons.board.index', [
             'addonBoard' => $addonBoard,
+            'approvedAddons' => $addonBoard->approved_addons_paginated,
         ]);
     }
 }

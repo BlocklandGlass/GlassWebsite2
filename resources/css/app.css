@@ -129,6 +129,16 @@ body::-webkit-scrollbar {
   margin-right: 0;
 }
 
+/* Pagination */
+
+.paginator {
+  margin-bottom: 20px;
+}
+
+.paginator::before {
+  content: "Page: ";
+}
+
 /* Body */
 
 .content {

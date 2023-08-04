@@ -12,6 +12,7 @@
 
 @section('content')
     <h2>{{ $addonBoard->name }}</h2>
+    <div class="paginator" id="top">{{ $approvedAddons->onEachSide(1)->fragment('top')->links() }}</div>
     <table class="boardTable" cellspacing="0">
         <thead>
             <tr>
@@ -27,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($addonBoard->approved_addons->sortByDesc('created_at') as $addon)
+            @foreach ($approvedAddons as $addon)
                 <tr>
                     <td>
                         <strong><a href="{{ route('addons.addon', ['id' => $addon->id], false) }}">{{ $addon->name }}</a></strong>
@@ -44,6 +45,7 @@
             @endforeach
         </tbody>
     </table>
+    <div class="paginator" id="bottom">{{ $approvedAddons->onEachSide(1)->fragment('bottom')->links() }}</div>
     <div class="row center-xs">
         <div class="col-xs">
             <a href="#">Back to the top</a>

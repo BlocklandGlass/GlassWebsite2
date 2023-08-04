@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AddonBoard extends Model
 {
@@ -56,7 +57,47 @@ class AddonBoard extends Model
                 ->take(1);
         }, 'approved')
             ->where('addon_board_id', $this->id)
+            ->orderByDesc('created_at')
             ->get();
+
+        return $addons;
+    }
+
+    /**
+     * Get the add-on board's approved add-ons (paginated).
+     */
+    public function getApprovedAddonsPaginatedAttribute(): LengthAwarePaginator
+    {
+        $addons = Addon::where(function (Builder $query) {
+            $query->select('review_status')
+                ->from('addon_uploads')
+                ->whereColumn('addon_uploads.addon_id', 'addons.id')
+                ->where('addon_uploads.review_status', 'approved')
+                ->latest()
+                ->take(1);
+        }, 'approved')
+            ->where('addon_board_id', $this->id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return $addons;
+    }
+
+    /**
+     * Get the add-on board's approved add-ons count.
+     */
+    public function getApprovedAddonsCountAttribute(): int
+    {
+        $addons = Addon::where(function (Builder $query) {
+            $query->select('review_status')
+                ->from('addon_uploads')
+                ->whereColumn('addon_uploads.addon_id', 'addons.id')
+                ->where('addon_uploads.review_status', 'approved')
+                ->latest()
+                ->take(1);
+        }, 'approved')
+            ->where('addon_board_id', $this->id)
+            ->count();
 
         return $addons;
     }
