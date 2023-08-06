@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddonBoardController;
 use App\Http\Controllers\AddonBoardGroupController;
 use App\Http\Controllers\AddonController;
+use App\Http\Controllers\AddonSearchController;
 use App\Http\Controllers\SteamAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,8 @@ Route::get('/addons/board', function () {
     return redirect()->route('addons.boards');
 });
 Route::get('/addons/board/{id}', [AddonBoardController::class, 'show'])->where('id', '\d+')->name('addons.board');
+
+Route::get('/addons/search', [AddonSearchController::class, 'show'])->name('addons.search');
 
 Route::view('/news', 'news.index')->name('news');
 

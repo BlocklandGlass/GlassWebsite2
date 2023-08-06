@@ -14,6 +14,10 @@
     <div class="row center-xs">
         <div class="col-xs">
             <img src="{{ asset('img/logo.webp') }}" title="Blockland Glass" alt="The Blockland Glass logo in color" style="max-width: 100%; margin-bottom: 10px;" />
+            <form method="get" action="{{ route('addons.search', ['#top'], false) }}">
+                <input class="searchBar" type="text" name="query" placeholder="Search" autofocus>
+            </form>
+            <br />
         </div>
     </div>
     @foreach ($addonBoardGroups as $addonBoardGroup)
