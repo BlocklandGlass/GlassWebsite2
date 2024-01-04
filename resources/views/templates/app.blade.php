@@ -29,7 +29,7 @@
     <body>
         <div id="container">
             <div class="header">
-                <strong>🗞️ <a href="{{ route('news', ['2023-05-21'], false) }}">2023-05-21: Yes, we're back. No, you can't login yet</a></strong>
+                <a href="{{ route('news', ['2023-05-21'], false) }}" id="newsBtn">2023-05-21: Yes, we're back. No, you can't login yet</a>
             </div>
             <div class="nav">
                 <a href="{{ route('home', [], false) }}" id="logoBtn">
@@ -43,8 +43,8 @@
                         <img src="{{ asset('img/sits_01.webp') }}" title="Sign in through Steam" alt="A sign in through Steam button" />
                     </a>
                 @else
-                    <a href="{{ route('logout', [], false) }}" id="userBtn">
-                        <img src="{{ auth()->user()->avatar_url }}" title="Logout" alt="Your Steam avatar" />
+                    <a href="{{ route('account', [], false) }}" id="userBtn">
+                        <img src="{{ auth()->user()->avatar_url }}" title="Your account" alt="Your Steam avatar" />
                     </a>
                 @endif
             </div>

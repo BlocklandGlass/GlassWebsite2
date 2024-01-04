@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -35,4 +36,12 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [];
+
+    /**
+     * Get the user's associated BLIDs.
+     */
+    public function blids(): HasMany
+    {
+        return $this->hasMany(Blid::class);
+    }
 }

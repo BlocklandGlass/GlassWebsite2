@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountLinkController;
 use App\Http\Controllers\AddonBoardController;
 use App\Http\Controllers\AddonBoardGroupController;
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\AddonSearchController;
 use App\Http\Controllers\SteamAuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,8 +46,18 @@ Route::get('/addons/search', [AddonSearchController::class, 'show'])->name('addo
 
 Route::view('/news', 'news.index')->name('news');
 
-Route::get('login', [SteamAuthController::class, 'login'])->name('login');
-Route::get('logout', [SteamAuthController::class, 'logout'])->name('logout');
+Route::get('/login', [SteamAuthController::class, 'login'])->name('login');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [AccountController::class, 'show'])->name('account');
+
+    Route::get('/account/link', [AccountLinkController::class, 'show'])->name('account.link');
+    Route::post('/account/link', [AccountLinkController::class, 'store']);
+
+    Route::get('/logout', [SteamAuthController::class, 'logout'])->name('logout');
+});
+
+Route::get('/user/blid/{blid}', [UserController::class, 'show'])->where('blid', '\d+')->name('user');
 
 Route::fallback(function () {
     return view('errors.404');

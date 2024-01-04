@@ -103,6 +103,15 @@ body::-webkit-scrollbar {
   float: right;
 }
 
+#newsBtn {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#newsBtn:before {
+  content: "🗞️ ";
+}
+
 /* Sub-Navigation */
 
 .subNav {
@@ -332,4 +341,31 @@ body::-webkit-scrollbar {
 
 .addonComments .row:nth-child(2n+1) {
   background-color: #f5f5f5;
+}
+
+/* Errors */
+
+.error {
+  margin-top: 10px;
+  border-left: 4px solid #b31515;
+  padding: 8px;
+  color: #b31515;
+  font-size: 0.8rem;
+  font-weight: bold;
+  animation: fadeIn 500ms;
+}
+
+.success {
+  margin-top: 10px;
+  border-left: 4px solid #15b358;
+  padding: 8px;
+  color: #15b358;
+  font-size: 0.8rem;
+  font-weight: bold;
+  animation: fadeIn 500ms;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

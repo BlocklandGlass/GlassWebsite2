@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-xs">
             <h2>{{ $addon->name }}</h2>
-            <p>Uploaded by <strong>{{ $addon->blid->name }}</strong></p>
+            <p>Uploaded by <strong><a href="{{ route('user', ['blid' => $addon->blid->id], false) }}">{{ $addon->blid->name }}</a></strong></p>
             <p>
                 <img class="addonIcon" src="{{ asset('img/icons32/category.webp') }}" title="Board" alt="The add-on board icon." /> <a href="{{ route('addons.board', ['id' => $addon->addon_board_id], false) }}">{{ $addon->addon_board->name }}</a>
                 <br />
@@ -97,7 +97,7 @@
         @foreach ($addon->addon_comments as $addonComment)
             <div class="row">
                 <div class="col-xs-3 col-sm-2">
-                    <strong>{{ $addonComment->blid->name }}</strong>
+                    <a href="{{ route('user', ['blid' => $addonComment->blid->id], false) }}">{{ $addonComment->blid->name }}</a>
                     <br />
                     <small>{{ $addonComment->created_at }}</small>
                 </div>

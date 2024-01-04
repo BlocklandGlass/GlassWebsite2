@@ -36,7 +36,7 @@
                         <small>{{ $addon->summary }}</small>
                     </td>
                     <td>
-                        <strong>{{ $addon->blid->name }}</strong>
+                        <a href="{{ route('user', ['blid' => $addon->blid->id], false) }}">{{ $addon->blid->name }}</a>
                     </td>
                     <td>
                         {{ number_format($addon->total_downloads) }}
