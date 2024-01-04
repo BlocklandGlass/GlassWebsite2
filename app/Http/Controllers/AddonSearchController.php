@@ -10,7 +10,7 @@ use Illuminate\View\View;
 class AddonSearchController extends Controller
 {
     /**
-     * Show the add-on boards.
+     * Search the add-on boards.
      */
     public function show(): View|RedirectResponse
     {
