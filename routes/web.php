@@ -8,6 +8,7 @@ use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\MyAccountLinkController;
 use App\Http\Controllers\SteamAuthController;
 use App\Http\Controllers\UserBlidController;
+use App\Http\Controllers\UserSteamIdController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/users/blid/{id}', [UserBlidController::class, 'show'])->where('id', '\d+')->name('users.blid');
+Route::get('/users/steamid/{id}', [UserSteamIdController::class, 'show'])->where('id', '\d+')->name('users.steamid');
 
 Route::fallback(function () {
     return view('errors.404');
