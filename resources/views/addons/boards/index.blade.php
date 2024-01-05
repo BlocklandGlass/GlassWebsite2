@@ -36,7 +36,7 @@
                             <img src="{{ asset('img/icons32/' . $addonBoard->icon . '.webp') }}" alt="The {{ $addonBoard->name }} board icon." />
                         </td>
                         <td>
-                            <a href="{{ route('addons.board', ['id' => $addonBoard->id], false) }}">{{ $addonBoard->name }}</a>
+                            <a href="{{ route('addons.board', ['id' => $addonBoard->id], false) }}" class="link">{{ $addonBoard->name }}</a>
                         </td>
                         <td>
                             {{ number_format($addonBoard->approved_addons_count) }}
@@ -48,7 +48,7 @@
     @endforeach
     <div class="row center-xs">
         <div class="col-xs">
-            <a href="#">Back to the top</a>
+            <a href="#" class="link">Back to the top</a>
         </div>
     </div>
 @endsection

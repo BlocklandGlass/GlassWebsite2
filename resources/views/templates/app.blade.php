@@ -29,7 +29,7 @@
     <body>
         <div id="container">
             <div class="header">
-                <a href="{{ route('news', ['2023-05-21'], false) }}" id="newsBtn">2023-05-21: Yes, we're back. No, you can't login yet</a>
+                <a href="{{ route('news', ['2023-05-21'], false) }}" id="newsBtn" class="link">2023-05-21: Yes, we're back. No, you can't login yet</a>
             </div>
             <div class="nav">
                 <a href="{{ route('home', [], false) }}" id="logoBtn">

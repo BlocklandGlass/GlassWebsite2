@@ -31,12 +31,12 @@
             @foreach ($approvedAddons as $addon)
                 <tr>
                     <td>
-                        <strong><a href="{{ route('addons.addon', ['id' => $addon->id], false) }}">{{ $addon->name }}</a></strong>
+                        <strong><a href="{{ route('addons.addon', ['id' => $addon->id], false) }}" class="link">{{ $addon->name }}</a></strong>
                         <br />
                         <small>{{ $addon->summary }}</small>
                     </td>
                     <td>
-                        <a href="{{ route('users.blid', ['id' => $addon->blid->id], false) }}">{{ $addon->blid->name }}</a>
+                        <a href="{{ route('users.blid', ['id' => $addon->blid->id], false) }}" class="link">{{ $addon->blid->name }}</a>
                     </td>
                     <td>
                         {{ number_format($addon->total_downloads) }}
@@ -48,7 +48,7 @@
     <div class="paginator" id="bottom">{{ $approvedAddons->onEachSide(1)->fragment('bottom')->links() }}</div>
     <div class="row center-xs">
         <div class="col-xs">
-            <a href="#">Back to the top</a>
+            <a href="#" class="link">Back to the top</a>
         </div>
     </div>
 @endsection

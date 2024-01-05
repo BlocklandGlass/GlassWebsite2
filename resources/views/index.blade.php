@@ -11,7 +11,7 @@
     <div>
         <h3>A New Beginning</h3>
         <p>
-            Welcome to the new Blockland Glass website. If you haven't heard about the data breach that occurred in April 2023, <a href="{{ route('news', [], false) }}">please click here for further details</a>.
+            Welcome to the new Blockland Glass website. If you haven't heard about the data breach that occurred in April 2023, <a href="{{ route('news', [], false) }}" class="link">please click here for further details</a>.
         </p>
         <p>
             This website has been rewritten from scratch to follow modern security practices and now uses a proper web framework called Laravel.
@@ -23,7 +23,7 @@
     <div>
         <h3>What's Glass?</h3>
         <p>
-            Blockland Glass is a service made for <a href="https://blockland.us" target="_blank" rel="noreferrer">Blockland</a> to help expand and cultivate the community. Glass acts as a content platform offering the ability to download Glass add-ons in-game and manage your server's preferences.
+            Blockland Glass is a service made for <a href="https://blockland.us" target="_blank" rel="noreferrer" class="link">Blockland</a> to help expand and cultivate the community. Glass acts as a content platform offering the ability to download Glass add-ons in-game and manage your server's preferences.
         </p>
     </div>
     <div style="float: right;">
@@ -50,12 +50,12 @@
     <div>
         <h3>Getting Involved</h3>
         <p>
-            Blockland Glass is an open-source project open to any contributions. If you're interested, please help us out on <a href="https://github.com/BlocklandGlass" target="_blank" rel="noreferrer">GitHub</a>.
+            Blockland Glass is an open-source project open to any contributions. If you're interested, please help us out on <a href="https://github.com/BlocklandGlass" target="_blank" rel="noreferrer" class="link">GitHub</a>.
         </p>
     </div>
     <div class="row center-xs">
         <div class="col-xs">
-            <a href="#">Back to the top</a>
+            <a href="#" class="link">Back to the top</a>
         </div>
     </div>
 @endsection

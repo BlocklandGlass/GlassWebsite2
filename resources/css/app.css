@@ -78,6 +78,15 @@ body::-webkit-scrollbar {
   background-color: #48E68B;
 }
 
+.link {
+  color: #0066CC;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #0096CC;
+}
+
 #logoBtn > img {
   background-color: #15b358;
   height: 38px;
@@ -105,11 +114,14 @@ body::-webkit-scrollbar {
 
 #newsBtn {
   font-weight: bold;
-  text-decoration: none;
 }
 
 #newsBtn:before {
   content: "🗞️ ";
+}
+
+#newsBtn:visited {
+  color: #551a8b;
 }
 
 /* Sub-Navigation */

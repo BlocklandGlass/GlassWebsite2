@@ -38,7 +38,7 @@
         <li>Add-on screenshots.</li>
         <li>Commenting on add-ons.</li>
         <li>The add-ons home page (where the overview of trending/recently uploaded add-ons was).</li>
-        <li>Searching for add-ons on the website (the in-game Mod Manager searching is working though and so is browsing the <a href="{{ route('addons.boards', [], false) }}">Boards</a> here and in-game).</li>
+        <li>Searching for add-ons on the website (the in-game Mod Manager searching is working though and so is browsing the <a href="{{ route('addons.boards', [], false) }}" class="link">Boards</a> here and in-game).</li>
         <li>The RTB Archive.</li>
     </ul>
     <p>
@@ -96,7 +96,7 @@
     </p>
     <div class="row center-xs">
         <div class="col-xs">
-            <a href="#">Back to the top</a>
+            <a href="#" class="link">Back to the top</a>
         </div>
     </div>
 @endsection
