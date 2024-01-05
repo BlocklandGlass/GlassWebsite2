@@ -1,12 +1,12 @@
 @extends('templates.app')
 
-@section('title', 'Account Link')
+@section('title', 'Link')
 
-@section('description', 'Link your BLID(s) to your Steam account.')
+@section('description', 'Link your BLID(s) to your account.')
 
 @section('subNav')
     <ul>
-        <li><a href="{{ route('account.link', [], false) }}" class="navBtn">Link</a></li>
+        <li><a href="{{ route('my-account.link', [], false) }}" class="navBtn">Link</a></li>
     </ul>
 @endsection
 

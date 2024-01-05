@@ -43,8 +43,8 @@
                         <img src="{{ asset('img/sits_01.webp') }}" title="Sign in through Steam" alt="A sign in through Steam button" />
                     </a>
                 @else
-                    <a href="{{ route('account', [], false) }}" id="userBtn">
-                        <img src="{{ auth()->user()->avatar_url }}" title="Your account" alt="Your Steam avatar" />
+                    <a href="{{ route('my-account', [], false) }}" id="userBtn">
+                        <img src="{{ auth()->user()->avatar_url }}" title="My Account" alt="Your Steam avatar" />
                     </a>
                 @endif
             </div>

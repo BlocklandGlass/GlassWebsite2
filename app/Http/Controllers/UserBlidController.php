@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blid;
 use Illuminate\View\View;
 
-class UserController extends Controller
+class UserBlidController extends Controller
 {
     /**
      * Show the user page.
@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $user = Blid::where('id', $id)->firstOrFail();
 
-        return view('user.index', [
+        return view('users.index', [
             'user' => $user,
         ]);
     }

@@ -6,14 +6,14 @@ use App\Models\Blid;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
 
-class AccountLinkController extends Controller
+class MyAccountLinkController extends Controller
 {
     /**
      * Show the account link page.
      */
     public function show(): View
     {
-        return view('account.link.index');
+        return view('my-account.link.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class AccountLinkController extends Controller
         ]);
 
         if (RateLimiter::tooManyAttempts('failed-blid-link:'.auth()->user()->id, $perThreeMinutes = 3)) {
-            return view('account.link.index')->withErrors([
+            return view('my-account.link.index')->withErrors([
                 'You have too many failed attempts, please try again in a few minutes.',
             ]);
         }
@@ -42,7 +42,7 @@ class AccountLinkController extends Controller
         if ($blid->exists && $blid->user_id !== null) {
             RateLimiter::hit('failed-blid-link:'.auth()->user()->id);
 
-            return view('account.link.index')->withErrors([
+            return view('my-account.link.index')->withErrors([
                 'BLID '.$id.' is already linked to an account.',
             ]);
         }
@@ -52,7 +52,7 @@ class AccountLinkController extends Controller
         if (! $auth['success']) {
             RateLimiter::hit('failed-blid-link:'.auth()->user()->id);
 
-            return view('account.link.index')->withErrors([
+            return view('my-account.link.index')->withErrors([
                 'BLID '.$id.' is not associated with your Steam account.'.($id === '0' ? ' Very funny.' : ''),
             ]);
         }
@@ -60,7 +60,7 @@ class AccountLinkController extends Controller
         $name = $auth['name'];
 
         if ($name === null) {
-            return view('account.link.index')->withErrors([
+            return view('my-account.link.index')->withErrors([
                 'BLID '.$id.' does not have an in-game name set.',
             ]);
         }
@@ -71,6 +71,6 @@ class AccountLinkController extends Controller
 
         RateLimiter::clear('failed-blid-link:'.auth()->user()->id);
 
-        return view('account.link.index')->with('success', 'BLID '.$id.' ('.$name.') has been successfully linked to your account.');
+        return view('my-account.link.index')->with('success', 'BLID '.$id.' ('.$name.') has been successfully linked to your account.');
     }
 }
