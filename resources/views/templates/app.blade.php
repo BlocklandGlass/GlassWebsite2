@@ -64,6 +64,13 @@
                     @yield('content')
                 </div>
             </div>
+            <div class="footer">
+                @if (isset($revision))
+                    <span>Running <a href="https://github.com/BlocklandGlass/GlassWebsite2" target="_blank" rel="noreferrer" class="link">GlassWebsite2</a> rev. {{ $revision }} (last updated {{ $revisionTime }})</span>
+                @else
+                    <span>Running <a href="https://github.com/BlocklandGlass/GlassWebsite2" target="_blank" rel="noreferrer" class="link">GlassWebsite2</a></span>
+                @endif
+            </div>
         </div>
     </body>
 </html>
