@@ -4,10 +4,14 @@
 
 @section('description', $addon->summary) {{-- FIXME: Not all add-ons will have a summary filled. --}}
 
+@section('head')
+    <link rel="stylesheet" href="{{ asset('js/lightbox2/lightbox.min.css') }}">
+@endsection
+
 @if ($addon->no_index)
     @section('head')
         <meta name="robots" content="noindex">
-    @endsection
+    @append
 @endif
 
 @section('subNav')
@@ -46,7 +50,7 @@
                                 </div><div class="row end-xs">
                             @endif
                             <div class="col-xs">
-                                <a href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
                                     <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                                 </a>
                             </div>
@@ -55,7 +59,7 @@
                 @else
                     <div class="row end-xs">
                         <div class="col-xs">
-                            <a href="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                            <a data-lightbox="screenshot" href="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
                                 <img src="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                             </a>
                         </div>
@@ -66,7 +70,7 @@
                                 </div><div class="row end-xs">
                             @endif
                             <div class="col-xs">
-                                <a href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
                                     <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                                 </a>
                             </div>
@@ -118,4 +122,19 @@
             <a href="#" class="link">Back to the top</a>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/lightbox2/lightbox.min.js') }}"></script>
+
+    <script>
+        lightbox.option({
+            'albumLabel': 'Screenshot %1 of %2',
+            'fadeDuration': 0,
+            'imageFadeDuration': 0,
+            'resizeDuration': 0,
+            'wrapAround': true,
+            'disableScrolling': true
+        });
+    </script>
 @endsection
