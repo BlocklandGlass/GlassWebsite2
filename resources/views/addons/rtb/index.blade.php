@@ -5,9 +5,15 @@
 @section('description', 'Browse the RTB Archive.')
 
 @section('subNav')
-    <ul>
-        <li><a href="{{ route('addons.boards', [], false) }}" class="navBtn">Boards</a></li><li><a href="{{ route('addons.rtb', [], false) }}" class="navBtn">RTB Archive</a></li>
-    </ul>
+    @include('addons.subnav')
+@endsection
+
+@section('breadcrumb')
+    <div class="row">
+        <div class="col-xs">
+            <span><a href="{{ route('addons', [], false) }}" class="link">Add-Ons</a> <i class="bx-fw bx bxs-chevron-right"></i>RTB Archive</span>
+        </div>
+    </div>
 @endsection
 
 @section('content')

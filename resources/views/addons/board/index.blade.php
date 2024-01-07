@@ -5,13 +5,20 @@
 @section('description', 'Browse add-ons in the '.$addonBoard->name.' board.')
 
 @section('subNav')
-    <ul>
-        <li><a href="{{ route('addons.boards', [], false) }}" class="navBtn">Boards</a></li><li><a href="{{ route('addons.rtb', [], false) }}" class="navBtn">RTB Archive</a></li>
-    </ul>
+    @include('addons.subnav')
+@endsection
+
+@section('breadcrumb')
+    <div class="row">
+        <div class="col-xs">
+            <span><a href="{{ route('addons', [], false) }}" class="link">Add-Ons</a> <i class="bx-fw bx bxs-chevron-right"></i><a href="{{ route('addons.boards', [], false) }}" class="link">Boards</a> <i class="bx-fw bx bxs-chevron-right"></i>{{ $addonBoard->name }}</span>
+        </div>
+    </div>
 @endsection
 
 @section('content')
     <h2>{{ $addonBoard->name }}</h2>
+    <br />
     <div class="paginator" id="top">{{ $approvedAddons->onEachSide(1)->fragment('top')->links() }}</div>
     <table class="boardTable" cellspacing="0">
         <thead>

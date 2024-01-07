@@ -5,9 +5,15 @@
 @section('description', 'Link your BLID(s) to your account.')
 
 @section('subNav')
-    <ul>
-        <li><a href="{{ route('my-account.link', [], false) }}" class="navBtn">Link</a></li>
-    </ul>
+    @include('my-account.subnav')
+@endsection
+
+@section('breadcrumb')
+    <div class="row">
+        <div class="col-xs">
+            <span><a href="{{ route('my-account', [], false) }}" class="link">My Account</a> <i class="bx-fw bx bxs-chevron-right"></i>Link</span>
+        </div>
+    </div>
 @endsection
 
 @section('content')

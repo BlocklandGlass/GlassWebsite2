@@ -11,15 +11,21 @@
 @endif
 
 @section('subNav')
-    <ul>
-        <li><a href="{{ route('addons.boards', [], false) }}" class="navBtn">Boards</a></li><li><a href="{{ route('addons.rtb', [], false) }}" class="navBtn">RTB Archive</a></li>
-    </ul>
+    @include('addons.subnav')
+@endsection
+
+@section('breadcrumb')
+    <div class="row">
+        <div class="col-xs">
+            <span><a href="{{ route('addons', [], false) }}" class="link">Add-Ons</a> <i class="bx-fw bx bxs-chevron-right"></i><a href="{{ route('addons.boards', [], false) }}" class="link">Boards</a> <i class="bx-fw bx bxs-chevron-right"></i><a href="{{ route('addons.board', ['id' => $addon->addon_board_id], false) }}" class="link">{{ $addon->addon_board->name }}</a> <i class="bx-fw bx bxs-chevron-right"></i>{{ $addon->name }}</span>
+        </div>
+    </div>
 @endsection
 
 @section('content')
+    <h2>{{ $addon->name }}</h2>
     <div class="row">
         <div class="col-xs">
-            <h2>{{ $addon->name }}</h2>
             <p>Uploaded by <strong><a href="{{ route('users.blid', ['id' => $addon->blid->id], false) }}" class="link">{{ $addon->blid->name }}</a></strong></p>
             <p>
                 <img class="addonIcon" src="{{ asset('img/icons32/category.webp') }}" title="Board" alt="The add-on board icon." /> <a href="{{ route('addons.board', ['id' => $addon->addon_board_id], false) }}" class="link">{{ $addon->addon_board->name }}</a>

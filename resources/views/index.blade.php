@@ -5,7 +5,7 @@
 @section('content')
     <div style="text-align: center;">
         <img src="{{ asset('img/logo.webp') }}" title="Blockland Glass" alt="The Blockland Glass logo in color" style="max-width: 100%;" />
-        <h2 style="color: #333; font-style: italic;">An open-source Blockland content service</h2>
+        <h2 style="color: #414042;">An open-source Blockland content service</h2>
         <a href="{{ route('addons.addon', ['id' => 11], false) }}" class="btn blue">Download</a><a href="{{ route('addons', [], false) }}" class="btn yellow">Add-Ons</a>
     </div>
     <div>

@@ -37,7 +37,7 @@
                     <img src="{{ asset('img/logoWhite.webp') }}" title="Blockland Glass" alt="The Blockland Glass logo in white" />
                 </a>
                 <ul>
-                    <li><a href="{{ route('home', [], false) }}" class="navBtn">Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn">Add-Ons</a></li>
+                    <li><a href="{{ route('home', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-home"></i>Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-package"></i>Add-Ons</a></li>
                 </ul>
                 @if (!auth()->user())
                     <a href="{{ route('login', [], false) }}" id="loginBtn">
@@ -54,8 +54,15 @@
                     @yield('subNav')
                 </div>
             @endif
-            <div class="content">
-                @yield('content')
+            <div id="subContainer">
+                @hasSection('breadcrumb')
+                    <div class="breadcrumb">
+                        @yield('breadcrumb')
+                    </div>
+                @endif
+                <div class="content">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </body>

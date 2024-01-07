@@ -5,9 +5,7 @@
 @section('description', 'Today\'s overview of trending and recently released add-ons.')
 
 @section('subNav')
-    <ul>
-        <li><a href="{{ route('addons.boards', [], false) }}" class="navBtn">Boards</a></li><li><a href="{{ route('addons.rtb', [], false) }}" class="navBtn">RTB Archive</a></li>
-    </ul>
+    @include('addons.subnav')
 @endsection
 
 @section('content')

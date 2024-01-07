@@ -7,11 +7,11 @@ body {
 
 body {
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 1024px;
   background-image: linear-gradient(#333, #222);
   background-size: auto 100%, 40px;
   background-position: center;
-  font-size: 18px;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Arial, Helvetica, sans-serif;
@@ -23,18 +23,30 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-#container {
-  margin: 20px 0 20px 0;
+h1,
+h2 {
+  margin: 0;
 }
 
 .header {
-  padding: 20px;
-  max-width: 1200px;
+  padding: 15px;
+  max-width: 945px;
   background-color: #fff;
   margin: 0 auto;
 }
 
-@media only screen and (max-width: 1240px) {
+#container {
+  margin: 20px 0 20px 0;
+}
+
+#subContainer {
+  padding: 15px;
+  max-width: 945px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 975px) {
   #container {
     margin: 0;
   }
@@ -70,7 +82,6 @@ body::-webkit-scrollbar {
   font-weight: bold;
   padding: 10px 15px;
   transition: 0.1s linear;
-  font-size: 1.2rem;
   display: inline-block;
 }
 
@@ -89,7 +100,7 @@ body::-webkit-scrollbar {
 
 #logoBtn > img {
   background-color: #15b358;
-  height: 38px;
+  height: 34px;
   margin: 4px;
   padding: 8px 12px;
   float: left;
@@ -105,8 +116,8 @@ body::-webkit-scrollbar {
 
 #userBtn > img {
   background-color: #15b358;
-  height: 46px;
-  width: 46px;
+  height: 42px;
+  width: 42px;
   margin: 4px;
   padding: 4px;
   float: right;
@@ -130,7 +141,7 @@ body::-webkit-scrollbar {
   background-color: #15b358;
   border-top: 0;
   margin: 0 auto;
-  max-width: 1240px;
+  max-width: 975px;
 }
 
 .subNav > ul {
@@ -150,10 +161,16 @@ body::-webkit-scrollbar {
   margin-right: 0;
 }
 
+/* Breadcrumb */
+
+.breadcrumb {
+  margin-bottom: 15px;
+}
+
 /* Pagination */
 
 .paginator {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .paginator::before {
@@ -166,15 +183,6 @@ body::-webkit-scrollbar {
   padding: 10px;
   width: 100%;
   box-sizing: border-box;
-}
-
-/* Body */
-
-.content {
-  padding: 20px;
-  max-width: 1200px;
-  background-color: #fff;
-  margin: 0 auto;
 }
 
 /* Buttons */
@@ -260,8 +268,7 @@ body::-webkit-scrollbar {
 }
 
 .boardGroupTable > thead > tr > th {
-  font-size: 1.2rem;
-  padding: 10px;
+  padding: 5px;
   background-color: #2ecc71;
   color: #fff;
   font-weight: bold;
@@ -303,8 +310,7 @@ body::-webkit-scrollbar {
 }
 
 .boardTable > thead > tr > th {
-  font-size: 1.2rem;
-  padding: 10px;
+  padding: 5px;
   background-color: #2ecc71;
   color: #fff;
   font-weight: bold;
@@ -380,4 +386,39 @@ body::-webkit-scrollbar {
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+/* Dark Mode */
+
+@media (prefers-color-scheme: darkx) {
+  .header,
+  .content {
+    background-color: #111;
+    color: #fff;
+  }
+
+  input {
+    border: 1px solid #666;
+    background-color: #333;
+    color: #fff;
+  }
+
+  input:focus {
+    outline: #15b358 solid 2px;
+  }
+
+  .boardGroupTable > tbody > tr:nth-child(2n+1),
+  .boardTable > tbody > tr:nth-child(2n+1),
+  .addonComments .row:nth-child(2n+1) {
+    background-color: #222;
+  }
+
+  .boardGroupTable > tbody > tr > td:nth-child(2) a,
+  .boardTable > tbody > tr > td:first-of-type a {
+    color: #fff;
+  }
+
+  .boardGroupTable > tbody > tr > td:nth-child(2) a:hover {
+    color: #666;
+  }
 }

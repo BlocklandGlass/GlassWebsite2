@@ -6,6 +6,7 @@
 
 @section('content')
     <h2>News</h2>
+    <br />
     <div style="border: 1px dashed #f00; padding: 10px; background-color: #ff0;">
         <p>
             The Blockland Glass website was hacked in April 2023 and the database was compromised. <strong>Details including usernames, e-mail addresses, passwords, and IP addresses were stolen.</strong>
