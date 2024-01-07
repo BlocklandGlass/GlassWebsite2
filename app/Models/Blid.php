@@ -110,4 +110,12 @@ class Blid extends Model
     {
         return $this->hasMany(Addon::class);
     }
+
+    /**
+     * Get the BLID's comments.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(AddonComment::class);
+    }
 }
