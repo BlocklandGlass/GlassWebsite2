@@ -72,5 +72,6 @@
                 @endif
             </div>
         </div>
+        <script type="text/javascript" src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     </body>
 </html>
