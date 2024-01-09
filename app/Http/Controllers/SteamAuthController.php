@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Ilzrv\LaravelSteamAuth\SteamAuth;
 use Ilzrv\LaravelSteamAuth\SteamData;
 
@@ -24,7 +24,7 @@ class SteamAuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/my-account';
 
     /**
      * SteamAuthController constructor.
@@ -49,10 +49,21 @@ class SteamAuthController extends Controller
             return $this->steamAuth->redirect();
         }
 
+        $user = $this->firstOrCreate($data);
+
+        if (! $user->wasRecentlyCreated) {
+            $user->name = $data->getPersonaName();
+            $user->avatar_url = $data->getAvatarFull();
+
+            $user->save();
+        }
+
         Auth::login(
-            $this->firstOrCreate($data),
+            $user,
             true
         );
+
+        Log::debug('Steam OpenID Authentication SUCCESS: "'.$user->steam_id.'" ('.$user->name.')');
 
         return redirect($this->redirectTo);
     }
