@@ -4,6 +4,7 @@ use App\Http\Controllers\AddonBoardController;
 use App\Http\Controllers\AddonBoardGroupController;
 use App\Http\Controllers\AddonController;
 use App\Http\Controllers\AddonSearchController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\MyAccountLinkController;
 use App\Http\Controllers\SteamAuthController;
@@ -47,7 +48,10 @@ Route::get('/addons/search', [AddonSearchController::class, 'show'])->name('addo
 
 Route::view('/news', 'news.index')->name('news');
 
-Route::get('/login', [SteamAuthController::class, 'login'])->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'show'])->name('login');
+    Route::get('/login/auth', [SteamAuthController::class, 'login'])->name('login.auth');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/my-account', [MyAccountController::class, 'show'])->name('my-account');
