@@ -36,16 +36,19 @@
                 <a href="{{ route('home', [], false) }}" id="logoBtn">
                     <img src="{{ asset('img/logoWhite.webp') }}" title="Blockland Glass" alt="The Blockland Glass logo in white" />
                 </a>
-                <ul>
-                    <li><a href="{{ route('home', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-home"></i>Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-package"></i>Add-Ons</a></li>
-                </ul>
                 @if (!auth()->user())
-                    <a href="{{ route('login', [], false) }}" id="loginBtn">
-                        <img src="{{ asset('img/sits_01.webp') }}" title="Sign in through Steam" alt="A sign in through Steam button" />
+                    <ul>
+                        <li><a href="{{ route('home', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-home"></i>Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-package"></i>Add-Ons</a></li>
+                    </ul>
+                    <a href="{{ route('login', [], false) }}" title="Login" id="loginBtn">
+                        <i class="bx bx-md bxs-key"></i>
                     </a>
                 @else
-                    <a href="{{ route('my-account', [], false) }}" id="userBtn">
-                        <img src="{{ auth()->user()->avatar_url }}" title="My Account" alt="Your Steam avatar" />
+                    <ul>
+                        <li><a href="{{ route('home', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-home"></i>Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-package"></i>Add-Ons</a><li><a href="{{ route('my-account', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-user-account"></i>My Account</a></li>
+                    </ul>
+                    <a href="{{ route('logout', [], false) }}" title="Logout" id="logoutBtn">
+                        <i class="bx bx-md bxs-log-out"></i>
                     </a>
                 @endif
             </div>

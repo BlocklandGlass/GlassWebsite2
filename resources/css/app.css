@@ -43,7 +43,9 @@ h2 {
   padding: 15px;
   max-width: 945px;
   background-color: #fff;
+  border-bottom: 5px solid #f5f5f5;
   margin: 0 auto;
+  overflow: auto;
 }
 
 .footer {
@@ -53,21 +55,12 @@ h2 {
   font-size: 0.8rem;
 }
 
-@media only screen and (max-width: 975px) {
-  #container {
-    margin: 0;
-  }
-
-  .footer {
-    margin-bottom: 15px;
-  }
-}
-
 /* Navigation */
 
 .nav {
   background-color: #2ecc71;
-  border: 2px solid #15b358;
+  border-bottom: 5px solid #15b358;
+  overflow: auto;
 }
 
 .nav > ul {
@@ -112,17 +105,44 @@ h2 {
 #logoBtn > img {
   background-color: #15b358;
   height: 34px;
-  margin: 4px;
+  margin: 5px;
   padding: 8px 12px;
   float: left;
 }
 
 #loginBtn {
-  height: 38px;
-  margin: 4px;
-  padding: 8px 12px;
+  background-color: #f1c40f;
+  box-shadow: 0 5px 0 0 #d8ab00;
+  color: #fff;
+  padding: 2px 4px;
+  margin: 8px;
   float: right;
+  transition: 0.1s linear;
   display: none;
+}
+
+#loginBtn:hover {
+  background-color: #ffde29;
+}
+
+#logoutBtn {
+  background-color: #cc2e2e;
+  box-shadow: 0 5px 0 0 #b31515;
+  color: #fff;
+  padding: 2px 4px;
+  margin: 8px;
+  float: right;
+  transition: 0.1s linear;
+}
+
+#logoutBtn:hover {
+  background-color: #e64848;
+}
+
+#loginBtn:active,
+#logoutBtn:active {
+  box-shadow: none;
+  transform: translate(0, 5px);
 }
 
 #userBtn > img {
@@ -149,17 +169,17 @@ h2 {
 /* Sub-Navigation */
 
 .subNav {
-  background-color: #15b358;
-  border-top: 0;
+  background-color: #2ecc71;
+  border-bottom: 5px solid #15b358;
   margin: 0 auto;
-  max-width: 975px;
+  max-width: 999px;
 }
 
 .subNav > ul {
   display: inline-block;
   position: relative;
   margin: 5px;
-  padding: 5px;
+  padding: 0 10px 0 10px;
 }
 
 .subNav > ul > li {
@@ -214,10 +234,6 @@ h2 {
   cursor: pointer;
 }
 
-.btn:active {
-  transform: translate(0, 5px);
-}
-
 .btn.blue {
   background-color: #55acee;
   box-shadow: 0 5px 0 0 #3c93d5;
@@ -254,6 +270,11 @@ h2 {
   background-color: #e64848;
 }
 
+.btn:active {
+  box-shadow: none;
+  transform: translate(0, 5px);
+}
+
 .btn:disabled {
   transition: none;
   color: black;
@@ -281,13 +302,14 @@ h2 {
 .boardGroupTable > thead > tr > th {
   padding: 5px;
   background-color: #2ecc71;
+  border-bottom: 5px solid #15b358;
   color: #fff;
   font-weight: bold;
 }
 
 .boardGroupTable > tbody > tr > td:first-of-type {
-  padding: 10px;
-  width: 32px;
+  padding: 8px 4px 4px 4px;
+  width: 40px;
 }
 
 .boardGroupTable > tbody > tr > td:nth-child(2) {
@@ -323,6 +345,7 @@ h2 {
 .boardTable > thead > tr > th {
   padding: 5px;
   background-color: #2ecc71;
+  border-bottom: 5px solid #15b358;
   color: #fff;
   font-weight: bold;
 }
@@ -397,6 +420,36 @@ h2 {
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+/* Smaller Screens (WIP) */
+
+@media only screen and (max-width: 975px) {
+  #container {
+    margin: 0;
+  }
+
+  .footer {
+    margin-bottom: 15px;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #logoBtn > img {
+    height: 26px;
+    margin: 8px 6px 6px 6px;
+    padding: 8px 10px;
+  }
+
+  .navBtn {
+    font-size: 0.8rem;
+  }
+
+  #loginBtn,
+  #logoutBtn {
+    padding: 0 2px;
+    margin: 8px;
+  }
 }
 
 /* Dark Mode */
