@@ -12,6 +12,7 @@
         "laravel/framework": "^10.8",
         "laravel/octane": "^2.0",
         "laravel/tinker": "^2.8",
+        "spatie/laravel-permission": "^6.4",
         "spiral/roadrunner-cli": "^2.5",
         "spiral/roadrunner-http": "^3.0"
     },
