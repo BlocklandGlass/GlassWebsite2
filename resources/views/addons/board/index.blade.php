@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($approvedAddons as $addon)
+            @forelse ($approvedAddons as $addon)
                 <tr>
                     <td>
                         <strong><a href="{{ route('addons.addon', ['id' => $addon->id], false) }}" class="link">{{ $addon->name }}</a></strong>
@@ -49,7 +49,13 @@
                         {{ number_format($addon->total_downloads) }}
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="3" style="text-align: center;">
+                        No add-ons have been uploaded to this board yet.
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
     <div class="paginator" id="bottom">{{ $approvedAddons->onEachSide(1)->fragment('bottom')->links() }}</div>
