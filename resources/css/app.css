@@ -112,9 +112,8 @@ h2 {
 
 #loginBtn {
   background-color: #f1c40f;
-  box-shadow: 0 5px 0 0 #d8ab00;
   color: #fff;
-  padding: 2px 4px;
+  padding: 3px;
   margin: 8px;
   float: right;
   transition: 0.1s linear;
@@ -127,9 +126,8 @@ h2 {
 
 #logoutBtn {
   background-color: #cc2e2e;
-  box-shadow: 0 5px 0 0 #b31515;
   color: #fff;
-  padding: 2px 4px;
+  padding: 3px;
   margin: 8px;
   float: right;
   transition: 0.1s linear;
@@ -137,12 +135,6 @@ h2 {
 
 #logoutBtn:hover {
   background-color: #e64848;
-}
-
-#loginBtn:active,
-#logoutBtn:active {
-  box-shadow: none;
-  transform: translate(0, 5px);
 }
 
 #userBtn > img {
@@ -302,7 +294,6 @@ h2 {
 .boardGroupTable > thead > tr > th {
   padding: 5px;
   background-color: #2ecc71;
-  border-bottom: 5px solid #15b358;
   color: #fff;
   font-weight: bold;
 }
@@ -345,7 +336,6 @@ h2 {
 .boardTable > thead > tr > th {
   padding: 5px;
   background-color: #2ecc71;
-  border-bottom: 5px solid #15b358;
   color: #fff;
   font-weight: bold;
 }
