@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blid;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
 
@@ -13,22 +14,64 @@ class MyAccountLinkController extends Controller
      */
     public function show(): View
     {
-        return view('my-account.link.index');
+        $status = 'UNVERIFIED (No BLID)';
+        $color = '#f00';
+
+        if (auth()->user()->blids) {
+            if (auth()->user()->primary_blid) {
+                $status = 'VERIFIED';
+                $color = '#0f0';
+            } else {
+                $status = 'UNVERIFIED (No Primary BLID Selected)';
+            }
+        }
+
+        return view('my-account.link.index')->with([
+            'status' => $status,
+            'color' => $color,
+        ]);
     }
 
     /**
      * TODO: Write function description.
      */
-    public function store(): View
+    public function store(): RedirectResponse
     {
+        if (request('primary')) {
+            if (auth()->user()->primary_blid) {
+                return back()->withErrors([
+                    'You have already selected your primary BLID.',
+                ]);
+            }
+
+            request()->validate([
+                'primary' => 'required|integer|max_digits:6',
+            ]);
+
+            $id = request('primary');
+
+            $blid = Blid::find($id);
+
+            if (! $blid || $blid->user->id !== auth()->user()->id) {
+                return back()->withErrors([
+                    'BLID '.$id.' is not linked to your Glass account.',
+                ]);
+            }
+
+            auth()->user()->primary_blid = $blid->id;
+            auth()->user()->save();
+
+            return back()->with('success', 'BLID '.$blid->id.' ('.$blid->name.') has been selected as your primary BLID.');
+        }
+
         request()->validate([
-            'blid' => 'required|integer|max_digits:6|bail',
+            'blid' => 'required|integer|max_digits:6',
         ], [
             'blid.*' => 'You must enter a valid BLID.',
         ]);
 
         if (RateLimiter::tooManyAttempts('failed-blid-link:'.auth()->user()->id, $perThreeMinutes = 3)) {
-            return view('my-account.link.index')->withErrors([
+            return back()->withErrors([
                 'You have too many failed attempts, please try again in a few minutes.',
             ]);
         }
@@ -39,11 +82,11 @@ class MyAccountLinkController extends Controller
             'id' => $id,
         ]);
 
-        if ($blid->exists && $blid->user_id !== null) {
+        if ($blid->user_id) {
             RateLimiter::hit('failed-blid-link:'.auth()->user()->id);
 
-            return view('my-account.link.index')->withErrors([
-                'BLID '.$id.' is already linked to an account.',
+            return back()->withErrors([
+                'BLID '.$id.' is already linked.',
             ]);
         }
 
@@ -52,7 +95,7 @@ class MyAccountLinkController extends Controller
         if (! $auth['success']) {
             RateLimiter::hit('failed-blid-link:'.auth()->user()->id);
 
-            return view('my-account.link.index')->withErrors([
+            return back()->withErrors([
                 'BLID '.$id.' is not associated with your Steam account.'.($id === '0' ? ' Very funny.' : ''),
             ]);
         }
@@ -60,7 +103,7 @@ class MyAccountLinkController extends Controller
         $name = $auth['name'];
 
         if ($name === null) {
-            return view('my-account.link.index')->withErrors([
+            return back()->withErrors([
                 'BLID '.$id.' does not have an in-game name set.',
             ]);
         }
@@ -71,6 +114,6 @@ class MyAccountLinkController extends Controller
 
         RateLimiter::clear('failed-blid-link:'.auth()->user()->id);
 
-        return view('my-account.link.index')->with('success', 'BLID '.$id.' ('.$name.') has been successfully linked to your account.');
+        return back()->with('success', 'BLID '.$id.' ('.$name.') has been successfully linked to your account.');
     }
 }
