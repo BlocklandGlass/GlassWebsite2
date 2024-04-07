@@ -23,6 +23,7 @@ class Addon extends Model
         'name',
         'summary',
         'description',
+        'is_draft',
         'no_index',
         'total_downloads',
         'web_downloads',
@@ -47,7 +48,23 @@ class Addon extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'is_draft' => 'boolean',
         'no_index' => 'boolean',
+    ];
+
+    /**
+     * The attributes that are set by default.
+     */
+    protected $attributes = [
+        'no_index' => false,
+        'total_downloads' => 0,
+        'web_downloads' => 0,
+        'ingame_downloads' => 0,
+        'update_downloads' => 0,
+        'legacy_total_downloads' => 0,
+        'legacy_web_downloads' => 0,
+        'legacy_ingame_downloads' => 0,
+        'legacy_update_downloads' => 0,
     ];
 
     /**
@@ -90,10 +107,11 @@ class Addon extends Model
         return $this->belongsTo(Blid::class);
     }
 
+    // TODO: Fix comments, remove all /* and replace with /**
     /*
      * Get the add-on's total downloads w/ legacy total download count added.
      */
-    public function getTotalDownloadsAttribute($value)
+    public function getTotalDownloadsAttribute($value) // TODO: Convert all *Attribute functions to new Accessor/Mutator functions.
     {
         return $value + $this->legacy_total_downloads;
     }

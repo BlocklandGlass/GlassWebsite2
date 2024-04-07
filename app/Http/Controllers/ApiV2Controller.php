@@ -29,6 +29,10 @@ class ApiV2Controller extends Controller
             return '';
         }
 
+        if ($addon->is_draft) {
+            return '';
+        }
+
         $addonUpload = $addon->latest_approved_addon_upload;
 
         if (! $addonUpload) {
@@ -57,6 +61,10 @@ class ApiV2Controller extends Controller
             $addon = Addon::where('id', $id)->first();
 
             if (! $addon) {
+                return ''; // TODO: Better error handling.
+            }
+
+            if ($addon->is_draft) {
                 return ''; // TODO: Better error handling.
             }
 
@@ -122,6 +130,10 @@ class ApiV2Controller extends Controller
             $addon = Addon::where('id', $addonId)->first();
 
             if (! $addon) {
+                continue;
+            }
+
+            if ($addon->is_draft) {
                 continue;
             }
 

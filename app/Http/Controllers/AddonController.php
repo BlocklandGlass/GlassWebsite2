@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Addon;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -12,14 +13,38 @@ class AddonController extends Controller
     /**
      * Show the add-on page.
      */
-    public function show(int $id): View
+    public function show(int $id): View|Response
     {
-        $addon = Addon::where('id', $id)->firstOrFail();
+        $addon = Addon::where('id', $id)->withTrashed()->first();
+
+        if (! $addon) {
+            return response()->view('addons.addon.error', [
+                'title' => 'Not Found',
+                'message' => 'This add-on does not exist.',
+            ], 404);
+        }
+
+        if ($addon->deleted_at) {
+            return view('addons.addon.error', [
+                'title' => 'Unavailable',
+                'message' => 'This add-on is no longer available.',
+            ]);
+        }
+
+        if ($addon->is_draft) {
+            return view('addons.addon.error', [
+                'title' => 'Not Published',
+                'message' => 'This add-on has not been published yet.',
+            ]);
+        }
 
         $addonUpload = $addon->latest_approved_addon_upload;
 
         if (! $addonUpload) {
-            abort(404);
+            return view('addons.addon.error', [
+                'title' => 'Pending Review',
+                'message' => 'This add-on is currently pending review.',
+            ]);
         }
 
         $available = Storage::disk('addons')->exists($addonUpload->file_path);
@@ -36,6 +61,10 @@ class AddonController extends Controller
     public function download(int $id): StreamedResponse
     {
         $addon = Addon::where('id', $id)->firstOrFail();
+
+        if ($addon->is_draft) {
+            abort(404);
+        }
 
         $addonUpload = $addon->latest_approved_addon_upload;
 

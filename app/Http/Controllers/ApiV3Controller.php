@@ -104,6 +104,10 @@ class ApiV3Controller extends Controller
                 return ''; // TODO: Better error handling.
             }
 
+            if ($addon->is_draft) {
+                return ''; // TODO: Better error handling.
+            }
+
             $addonUpload = $addon->latest_approved_addon_upload;
 
             if (! $addonUpload) {
@@ -258,6 +262,9 @@ class ApiV3Controller extends Controller
 
                 $addon = Addon::where('id', $id)->withTrashed()->first();
 
+                // Valid in-game Mod Manager statuses: notfound, notapproved, deleted, private
+                // https://github.com/BlocklandGlass/BlocklandGlass/blob/c832d23d51ec0149b0f7fb6d50ab2a9a57d30dbb/client/submodules/modmanager/addonPage.cs#L538
+
                 if (! $addon) {
                     $data['status'] = 'notfound';
                     $data['error'] = 'This add-on does not exist.';
@@ -267,6 +274,12 @@ class ApiV3Controller extends Controller
                 if ($addon->deleted_at) {
                     $data['status'] = 'deleted';
                     $data['error'] = 'This add-on is no longer available.';
+                    break;
+                }
+
+                if ($addon->is_draft) {
+                    $data['status'] = 'private';
+                    $data['error'] = 'This add-on is not published yet.';
                     break;
                 }
 
