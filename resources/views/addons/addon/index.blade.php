@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('js/lightbox2/lightbox.min.css') }}">
 @endsection
 
-@if ($addon->no_index)
+@if ($addon->no_index || $addon->addon_board->name === 'Bargain Bin')
     @section('head')
         <meta name="robots" content="noindex">
     @append
@@ -50,7 +50,7 @@
                                 </div><div class="row end-xs">
                             @endif
                             <div class="col-xs">
-                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank">
                                     <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                                 </a>
                             </div>
@@ -59,7 +59,7 @@
                 @else
                     <div class="row end-xs">
                         <div class="col-xs">
-                            <a data-lightbox="screenshot" href="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                            <a data-lightbox="screenshot" href="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" target="_blank">
                                 <img src="{{ asset('storage/'.$addon->addon_screenshots->sortBy('display_order')->first()->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                             </a>
                         </div>
@@ -70,7 +70,7 @@
                                 </div><div class="row end-xs">
                             @endif
                             <div class="col-xs">
-                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank"> {{-- TODO: Re-add JavaScript picture viewer. --}}
+                                <a data-lightbox="screenshot" href="{{ asset('storage/'.$addonScreenshot->file_path) }}" target="_blank">
                                     <img src="{{ asset('storage/'.$addonScreenshot->file_path) }}" alt="An add-on screenshot." style="max-width: 100%; max-height: 512px;" /> {{-- TODO: Move to stylesheet. --}}
                                 </a>
                             </div>

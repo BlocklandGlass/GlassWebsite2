@@ -29,7 +29,7 @@ class MakeSuperAdmin extends Command implements PromptsForMissingInput
     {
         $user = User::where('steam_id', $this->argument('steamId'))->first();
 
-        if ($user === null) {
+        if (! $user) {
             $this->error('The user does not exist.');
 
             return;
