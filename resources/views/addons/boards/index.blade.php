@@ -4,9 +4,7 @@
 
 @section('description', 'Browse the main index of all add-on boards.')
 
-@section('subNav')
-    @include('addons.subnav')
-@endsection
+@include('components.addons.subnav')
 
 @section('breadcrumb')
     <div class="row">

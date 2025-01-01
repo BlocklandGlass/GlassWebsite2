@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::defaultView('templates/paginator');
+        Paginator::defaultView('components/paginator');
 
         if (file_exists($revPath = base_path('.rev'))) {
             $rev = file_get_contents($revPath);

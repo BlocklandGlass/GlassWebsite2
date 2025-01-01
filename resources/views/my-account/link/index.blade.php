@@ -4,9 +4,7 @@
 
 @section('description', 'Link your BLID(s) to your account.')
 
-@section('subNav')
-    @include('my-account.subnav')
-@endsection
+@include('components.my-account.subnav')
 
 @section('breadcrumb')
     <div class="row">
@@ -32,23 +30,23 @@
         @csrf
         <input type="text" name="blid" placeholder="BLID" style="padding: 10px; width: 100%; box-sizing: border-box;" autocomplete="off" autofocus>
     </form>
-    <p>Your Glass account status is currently: <strong style="color: {{ $color }};">{{ $status }}</strong></p>
-    @if (!auth()->user()->primary_blid)
-        <p><strong>To finish verifying your account, you must select a primary BLID. This can only be done once:</strong></p>
-        <form method="post">
-            @csrf
-            <select name="primary" required>
-                <option value=""></option>
-                @foreach (auth()->user()->blids as $blid)
-                    <option value="{{ $blid->id }}">{{ $blid->id }}</option>
-                @endforeach
-            </select>
-            <button type="submit">Select</button>
-        </form>
-        <p>The primary BLID you select will become your username on the Glass website. Both your primary and alternative BLID(s) will be used for verifying ownership of past uploaded add-ons and in-game authentication.</p>
-    @endif
-    <p>Your linked BLIDs:</p>
-    @if (auth()->user()->blids->isNotEmpty())
+    <p>Your Glass account status is currently: @if (! $verified)<strong style="color: #b31515;">UNVERIFIED</strong>@else <strong style="color: #15b358;">VERIFIED</strong>@endif</p>
+    @if (! auth()->user()->blids->isEmpty())
+        @if (auth()->user()->primary_blid === null)
+            <p><strong>To finish verifying your account, you must select a primary BLID. This can only be done once:</strong></p>
+            <form method="post">
+                @csrf
+                <select name="primary" required>
+                    <option value=""></option>
+                    @foreach (auth()->user()->blids as $blid)
+                        <option value="{{ $blid->id }}">{{ $blid->id }}</option>
+                    @endforeach
+                </select>
+                <button type="submit">Select</button>
+            </form>
+            <p>The primary BLID you select will become your username on the Glass website. All BLIDs are used for verifying ownership of past uploaded add-ons and for future in-game authentication.</p>
+        @endif
+        <p>Your linked BLIDs:</p>
         <ul>
             @foreach (auth()->user()->blids as $blid)
                 @if ($blid->id === auth()->user()->primary_blid)

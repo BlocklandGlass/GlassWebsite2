@@ -35,7 +35,7 @@
                 <a href="{{ route('home', [], false) }}" id="logoBtn">
                     <img src="{{ asset('img/logoWhite.webp') }}" title="Blockland Glass" alt="The Blockland Glass logo in white" />
                 </a>
-                @if (!auth()->user())
+                @if (! auth()->user())
                     <ul>
                         <li><a href="{{ route('home', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-home"></i>Home</a></li><li><a href="{{ route('addons', [], false) }}" class="navBtn"><i class="bx-fw bx bxs-package"></i>Add-Ons</a></li>
                     </ul>

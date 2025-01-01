@@ -4,9 +4,7 @@
 
 @section('description', 'Today\'s overview of trending and recently released add-ons.')
 
-@section('subNav')
-    @include('addons.subnav')
-@endsection
+@include('components.addons.subnav')
 
 @section('content')
     <h2>Add-Ons</h2>

@@ -4,9 +4,7 @@
 
 @section('description', 'Browse the RTB Archive.')
 
-@section('subNav')
-    @include('addons.subnav')
-@endsection
+@include('components.addons.subnav')
 
 @section('breadcrumb')
     <div class="row">

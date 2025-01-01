@@ -4,9 +4,7 @@
 
 @section('description', 'Your account page.')
 
-@section('subNav')
-    @include('my-account.subnav')
-@endsection
+@include('components.my-account.subnav')
 
 @section('content')
     <h2>My Account</h2>

@@ -385,6 +385,34 @@ h2 {
   background-color: #f5f5f5;
 }
 
+/* Forms */
+
+.formSection {
+  background-color: #f5f5f5;
+  margin-bottom: 10px;
+}
+
+.formHeader {
+  padding: 10px;
+  background-color: #2ecc71;
+  color: #fff;
+  font-weight: bold;
+}
+
+.formBody {
+  padding: 10px;
+}
+
+.formBody > input,
+.formBody > label,
+.formBody > textarea {
+  margin-bottom: 10px;
+}
+
+.formBody > label {
+  display: block;
+}
+
 /* Errors */
 
 .error {

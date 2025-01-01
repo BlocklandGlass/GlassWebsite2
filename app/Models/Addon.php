@@ -189,4 +189,19 @@ class Addon extends Model
         $this->update_downloads = $updateDownloads;
         $this->save();
     }
+
+    /*
+     * TODO: Write function description.
+     */
+    public function sortScreenshots()
+    {
+        $order = 0;
+
+        $screenshots = $this->addon_screenshots->sortBy('display_order');
+
+        foreach ($screenshots as $screenshot) {
+            $screenshot->display_order = $order++;
+            $screenshot->update();
+        }
+    }
 }

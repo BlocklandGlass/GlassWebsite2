@@ -14,21 +14,14 @@ class MyAccountLinkController extends Controller
      */
     public function show(): View
     {
-        $status = 'UNVERIFIED (No BLID)';
-        $color = '#f00';
+        $verified = false;
 
-        if (auth()->user()->blids) {
-            if (auth()->user()->primary_blid) {
-                $status = 'VERIFIED';
-                $color = '#0f0';
-            } else {
-                $status = 'UNVERIFIED (No Primary BLID Selected)';
-            }
+        if (auth()->user()->primary_blid !== null) {
+            $verified = true;
         }
 
         return view('my-account.link.index')->with([
-            'status' => $status,
-            'color' => $color,
+            'verified' => $verified,
         ]);
     }
 

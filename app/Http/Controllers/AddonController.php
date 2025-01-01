@@ -26,7 +26,7 @@ class AddonController extends Controller
 
         if ($addon->deleted_at) {
             return view('addons.addon.error', [
-                'title' => 'Unavailable',
+                'title' => 'Not Available',
                 'message' => 'This add-on is no longer available.',
             ]);
         }

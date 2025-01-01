@@ -3,8 +3,14 @@
 use App\Http\Controllers\AddonBoardController;
 use App\Http\Controllers\AddonBoardGroupController;
 use App\Http\Controllers\AddonController;
+use App\Http\Controllers\AddonEditDetailsController;
+use App\Http\Controllers\AddonEditFileController;
+use App\Http\Controllers\AddonEditPublishController;
+use App\Http\Controllers\AddonEditScreenshotsController;
 use App\Http\Controllers\AddonSearchController;
+use App\Http\Controllers\AddonUploadController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MyAccountAddonController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\MyAccountLinkController;
 use App\Http\Controllers\SteamAuthController;
@@ -54,16 +60,41 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::middleware('verified')->group(function () {
+        Route::get('/addons/upload', [AddonUploadController::class, 'show'])->name('addons.upload');
+        Route::post('/addons/upload', [AddonUploadController::class, 'store']);
+    });
+
+    Route::middleware('uploader')->group(function () {
+        Route::get('/addons/edit/{id}/details', [AddonEditDetailsController::class, 'show'])->where('id', '\d+')->name('addons.edit.details');
+        Route::post('/addons/edit/{id}/details', [AddonEditDetailsController::class, 'store'])->where('id', '\d+');
+        Route::get('/addons/edit/{id}/screenshots', [AddonEditScreenshotsController::class, 'show'])->where('id', '\d+')->name('addons.edit.screenshots');
+        Route::post('/addons/edit/{id}/screenshots', [AddonEditScreenshotsController::class, 'store'])->where('id', '\d+');
+        Route::patch('/addons/edit/{id}/screenshots', [AddonEditScreenshotsController::class, 'patch'])->where('id', '\d+');
+        Route::delete('/addons/edit/{id}/screenshots', [AddonEditScreenshotsController::class, 'delete'])->where('id', '\d+');
+        Route::get('/addons/edit/{id}/file', [AddonEditFileController::class, 'show'])->where('id', '\d+')->name('addons.edit.file');
+        Route::post('/addons/edit/{id}/file', [AddonEditFileController::class, 'store'])->where('id', '\d+');
+        Route::get('/addons/edit/{id}/publish', [AddonEditPublishController::class, 'show'])->where('id', '\d+')->name('addons.edit.publish');
+    });
+
     Route::get('/my-account', [MyAccountController::class, 'show'])->name('my-account');
 
     Route::get('/my-account/link', [MyAccountLinkController::class, 'show'])->name('my-account.link');
     Route::post('/my-account/link', [MyAccountLinkController::class, 'store']);
 
+    Route::get('/my-account/my-addons', [MyAccountAddonController::class, 'show'])->name('my-account.my-addons');
+
     Route::get('/logout', [SteamAuthController::class, 'logout'])->name('logout');
 });
 
+Route::get('/addons/edit/{id}', function () {
+    $id = request('id');
+
+    return redirect()->route('addons.edit.details', ['id' => $id]);
+})->where('id', '\d+');
+
 Route::get('/users/blid/{id}', [UserBlidController::class, 'show'])->where('id', '\d+')->name('users.blid');
-Route::get('/users/steamid/{id}', [UserSteamIdController::class, 'show'])->where('id', '\d+')->name('users.steamid');
+// Route::get('/users/steamid/{id}', [UserSteamIdController::class, 'show'])->where('id', '\d+')->name('users.steamid');
 
 Route::fallback(function () {
     return view('errors.404');
