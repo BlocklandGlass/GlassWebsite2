@@ -38,7 +38,7 @@ class MyAccountLinkController extends Controller
     public function store(): RedirectResponse
     {
         if (request('primary')) {
-            if (auth()->user()->primary_blid) {
+            if (auth()->user()->primary_blid !== null) {
                 return back()->withErrors([
                     'You have already selected your primary BLID.',
                 ]);

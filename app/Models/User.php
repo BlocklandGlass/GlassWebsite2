@@ -62,6 +62,6 @@ class User extends Authenticatable
      */
     public function getNameAttribute(string $value): string
     {
-        return $this->primary_blid ? $this->primary_blid()->first()->name : 'Unverified User';
+        return $this->primary_blid()?->first()->name ?? 'Unverified User';
     }
 }

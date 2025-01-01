@@ -6,7 +6,6 @@
 
         <meta name="description" content="@yield('description', 'An open-source Blockland content service.')" />
         <meta name="theme-color" content="#2ecc71" />
-        <meta name="robots" content="index,follow" />
         <meta name="og:site_name" content="{{ config('app.name') }}" />
         <meta name="og:title" content="@yield('title')" />
         <meta name="og:description" content="@yield('description', 'An open-source Blockland content service.')" />
