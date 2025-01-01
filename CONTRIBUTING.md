@@ -22,10 +22,11 @@ You will need [Docker](https://www.docker.com/) installed, [WSL 2](https://learn
 7. Add Execute permissions for the newly downloaded RoadRunner binary using `chmod +x ./rr`.
 8. Rebuild the Sail image using `./vendor/bin/sail build --no-cache`.
 9. Start Sail again (as written in Step 2).
+10. Run the database migrations using `./vendor/bin/sail artisan migrate`.
 
-From this point, you just start and stop Sail using the aforementioned commands. Steps 3 - 8 only need to be done once. 
+From this point, you can now stop and start the container at will by using `./vendor/bin/sail down` and `./vendor/bin/sail up`.
 
-To view a full list of Sail commands, just do `./vendor/bin/sail`
+To view a full list of Sail commands, use `./vendor/bin/sail`. The most common ones this project uses for development are `artisan`, `up`, `down` and `pint`.
 
 You can also make an alias for `./vendor/bin/sail` -> `sail` by adding the following to your `.bashrc`:
 
