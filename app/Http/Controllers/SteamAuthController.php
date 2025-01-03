@@ -1,97 +1,86 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Psr7\Uri;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
-use Ilzrv\LaravelSteamAuth\SteamAuth;
-use Ilzrv\LaravelSteamAuth\SteamData;
+use Ilzrv\LaravelSteamAuth\Exceptions\Authentication\SteamResponseNotValidAuthenticationException;
+use Ilzrv\LaravelSteamAuth\Exceptions\Validation\ValidationException;
+use Ilzrv\LaravelSteamAuth\SteamAuthenticator;
+use Ilzrv\LaravelSteamAuth\SteamUserDto;
 
-class SteamAuthController extends Controller
+final class SteamAuthController
 {
-    /**
-     * The SteamAuth instance.
-     *
-     * @var SteamAuth
-     */
-    protected $steamAuth;
+    public function login(
+        Request $request,
+        Redirector $redirector,
+        Client $client,
+        HttpFactory $httpFactory,
+        AuthManager $authManager,
+    ): RedirectResponse {
+        $steamAuthenticator = new SteamAuthenticator(
+            new Uri($request->getUri()),
+            $client,
+            $httpFactory,
+        );
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/my-account';
-
-    /**
-     * SteamAuthController constructor.
-     */
-    public function __construct(SteamAuth $steamAuth)
-    {
-        $this->steamAuth = $steamAuth;
-    }
-
-    /**
-     * Get user data and login.
-     */
-    public function login(): RedirectResponse
-    {
-        if (! $this->steamAuth->validate()) {
-            return $this->steamAuth->redirect();
+        try {
+            $steamAuthenticator->auth();
+        } catch (ValidationException|SteamResponseNotValidAuthenticationException) {
+            return $redirector->to(
+                $steamAuthenticator->buildAuthUrl()
+            );
         }
 
-        $data = $this->steamAuth->getUserData();
+        $steamUser = $steamAuthenticator->getSteamUser();
 
-        if (is_null($data)) {
-            return $this->steamAuth->redirect();
-        }
-
-        $user = $this->firstOrCreate($data);
+        $user = $this->firstOrCreate($steamUser);
 
         if (! $user->wasRecentlyCreated) {
-            $user->name = $data->getPersonaName();
-            $user->avatar_url = $data->getAvatarFull();
+            $user->name = $steamUser->getPersonaName();
+            $user->avatar_url = $steamUser->getAvatarFull();
 
             $user->save();
         }
 
-        Auth::login(
+        $authManager->login(
             $user,
-            true
+            true,
         );
 
         Log::debug('Steam OpenID Authentication SUCCESS: "'.$user->steam_id.'" ('.$user->name.')');
 
-        return redirect($this->redirectTo);
+        return $redirector->to('/my-account');
     }
 
-    /**
-     * Logout the user.
-     */
-    public function logout(Request $request): RedirectResponse
-    {
-        Auth::logout();
+    public function logout(
+        Request $request,
+        Redirector $redirector,
+        Client $client,
+        HttpFactory $httpFactory,
+        AuthManager $authManager,
+    ): RedirectResponse {
+        $authManager->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect($this->redirectTo);
+        return $redirector->to('/');
     }
 
-    /**
-     * Get the first user by SteamID or create a new one if not exists.
-     */
-    protected function firstOrCreate(SteamData $data): User
+    private function firstOrCreate(SteamUserDto $steamUser): User
     {
         return User::firstOrCreate([
-            'steam_id' => $data->getSteamId(),
+            'steam_id' => $steamUser->getSteamId(),
         ], [
-            'name' => $data->getPersonaName(),
-            'avatar_url' => $data->getAvatarFull(),
+            'name' => $steamUser->getPersonaName(),
+            'avatar_url' => $steamUser->getAvatarFull(),
         ]);
     }
 }

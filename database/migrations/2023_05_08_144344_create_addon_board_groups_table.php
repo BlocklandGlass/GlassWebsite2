@@ -26,7 +26,7 @@ return new class extends Migration
         ];
 
         foreach ($names as $name) {
-            $addonBoardGroup = new AddonBoardGroup();
+            $addonBoardGroup = new AddonBoardGroup;
             $addonBoardGroup->name = $name;
             $addonBoardGroup->save();
         }

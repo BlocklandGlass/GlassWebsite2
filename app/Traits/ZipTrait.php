@@ -11,7 +11,7 @@ trait ZipTrait
             return false;
         }
 
-        $zip = new \ZipArchive();
+        $zip = new \ZipArchive;
         if ($zip->open($destination, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === false) {
             return false;
         }

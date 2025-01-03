@@ -156,7 +156,7 @@ return new class extends Migration
         ];
 
         foreach ($boards as $board) {
-            $addonBoard = new AddonBoard();
+            $addonBoard = new AddonBoard;
             $addonBoard->addon_board_group_id = $board['addon_board_group_id'];
             $addonBoard->name = $board['name'];
             $addonBoard->icon = $board['icon'];
