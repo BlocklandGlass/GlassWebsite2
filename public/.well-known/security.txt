@@ -1,0 +1,2 @@
+Contact: mailto:security@blocklandglass.com
+Policy: https://github.com/BlocklandGlass/GlassWebsite2/security
