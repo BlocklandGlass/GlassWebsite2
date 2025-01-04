@@ -15,7 +15,7 @@ class AddonEditPublishController extends Controller
     {
         $addon = Addon::where('id', $id)->withTrashed()->first();
 
-        if (! $addon) {
+        if ($addon === null) {
             return response()->view('addons.addon.error', [
                 'title' => 'Not Found',
                 'message' => 'This add-on does not exist.',

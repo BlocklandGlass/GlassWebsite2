@@ -17,7 +17,7 @@ class AddonController extends Controller
     {
         $addon = Addon::where('id', $id)->withTrashed()->first();
 
-        if (! $addon) {
+        if ($addon === null) {
             return response()->view('addons.addon.error', [
                 'title' => 'Not Found',
                 'message' => 'This add-on does not exist.',
@@ -40,7 +40,7 @@ class AddonController extends Controller
 
         $addonUpload = $addon->latest_approved_addon_upload;
 
-        if (! $addonUpload) {
+        if ($addonUpload === null) {
             return view('addons.addon.error', [
                 'title' => 'Pending Review',
                 'message' => 'This add-on is currently pending review.',
@@ -68,7 +68,7 @@ class AddonController extends Controller
 
         $addonUpload = $addon->latest_approved_addon_upload;
 
-        if (! $addonUpload) {
+        if ($addonUpload === null) {
             abort(404);
         }
 

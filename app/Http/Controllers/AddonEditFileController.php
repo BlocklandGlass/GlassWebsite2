@@ -23,7 +23,7 @@ class AddonEditFileController extends Controller
     {
         $addon = Addon::where('id', $id)->withTrashed()->first();
 
-        if (! $addon) {
+        if ($addon === null) {
             return response()->view('addons.addon.error', [
                 'title' => 'Not Found',
                 'message' => 'This add-on does not exist.',
@@ -62,7 +62,7 @@ class AddonEditFileController extends Controller
 
         $addon = Addon::where('id', $id)->withTrashed()->first();
 
-        if (! $addon) {
+        if ($addon === null) {
             return back()->withErrors([
                 'This add-on does not exist.',
             ]);

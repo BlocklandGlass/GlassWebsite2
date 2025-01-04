@@ -100,7 +100,7 @@ class ApiV3Controller extends Controller
 
             $addon = Addon::where('id', $id)->first();
 
-            if (! $addon) {
+            if ($addon === null) {
                 return ''; // TODO: Better error handling.
             }
 
@@ -110,7 +110,7 @@ class ApiV3Controller extends Controller
 
             $addonUpload = $addon->latest_approved_addon_upload;
 
-            if (! $addonUpload) {
+            if ($addonUpload === null) {
                 return ''; // TODO: Better error handling.
             }
 
@@ -265,7 +265,7 @@ class ApiV3Controller extends Controller
                 // Valid in-game Mod Manager statuses: notfound, notapproved, deleted, private
                 // https://github.com/BlocklandGlass/BlocklandGlass/blob/c832d23d51ec0149b0f7fb6d50ab2a9a57d30dbb/client/submodules/modmanager/addonPage.cs#L538
 
-                if (! $addon) {
+                if ($addon === null) {
                     $data['status'] = 'notfound';
                     $data['error'] = 'This add-on does not exist.';
                     break;
@@ -285,7 +285,7 @@ class ApiV3Controller extends Controller
 
                 $addonUpload = $addon->latest_approved_addon_upload;
 
-                if (! $addonUpload) {
+                if ($addonUpload === null) {
                     $data['status'] = 'notapproved';
                     $data['error'] = 'This add-on has not been approved.';
                     break;

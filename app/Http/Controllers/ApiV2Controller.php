@@ -25,7 +25,7 @@ class ApiV2Controller extends Controller
 
         $addon = Addon::where('id', $id)->first();
 
-        if (! $addon) {
+        if ($addon === null) {
             return '';
         }
 
@@ -35,7 +35,7 @@ class ApiV2Controller extends Controller
 
         $addonUpload = $addon->latest_approved_addon_upload;
 
-        if (! $addonUpload) {
+        if ($addonUpload === null) {
             return '';
         }
 
@@ -60,7 +60,7 @@ class ApiV2Controller extends Controller
 
             $addon = Addon::where('id', $id)->first();
 
-            if (! $addon) {
+            if ($addon === null) {
                 return ''; // TODO: Better error handling.
             }
 
@@ -70,7 +70,7 @@ class ApiV2Controller extends Controller
 
             $addonUpload = $addon->latest_approved_addon_upload;
 
-            if (! $addonUpload) {
+            if ($addonUpload === null) {
                 return ''; // TODO: Better error handling.
             }
 
@@ -129,7 +129,7 @@ class ApiV2Controller extends Controller
         foreach ($addonIds as $addonId) {
             $addon = Addon::where('id', $addonId)->first();
 
-            if (! $addon) {
+            if ($addon === null) {
                 continue;
             }
 
@@ -139,7 +139,7 @@ class ApiV2Controller extends Controller
 
             $addonUpload = $addon->latest_approved_addon_upload;
 
-            if (! $addonUpload) {
+            if ($addonUpload === null) {
                 continue;
             }
 
