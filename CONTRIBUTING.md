@@ -7,7 +7,7 @@
 
 ## Setting up the development environment
 
-This project uses [Laravel Sail](https://laravel.com/docs/10.x/sail) to provide a consistent development environment. It also uses Laravel Octane & RoadRunner as the application server in both development and production.
+This project uses [Laravel Sail](https://laravel.com/docs/11.x/sail) to provide a consistent development environment. It also uses Laravel Octane & RoadRunner as the application server in both development and production.
 
 You will need [Docker](https://www.docker.com/) installed, [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install) if you are on Windows and approximately **2GB** of free storage for Sail.
 
@@ -34,4 +34,4 @@ You can also make an alias for `./vendor/bin/sail` -> `sail` by adding the follo
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
-If you have issues setting up Laravel Sail, please visit https://laravel.com/docs/10.x/sail
+If you have issues setting up Laravel Sail, please visit https://laravel.com/docs/11.x/sail
