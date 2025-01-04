@@ -70,7 +70,7 @@ class Blid extends Model
             $parsedResult = explode(' ', trim($result));
 
             curl_close($ch);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::debug('Authentication FAILED: "'.$steamId.'" with BLID '.$blid.' ('.$e->getMessage().')');
 
             return ['success' => false, 'name' => null];
