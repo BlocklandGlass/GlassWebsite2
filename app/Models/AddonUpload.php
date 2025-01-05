@@ -75,6 +75,36 @@ class AddonUpload extends Model
     /*
      * TODO: Write function description.
      */
+    public function getMajorAttribute(): string
+    {
+        $version = explode('.', $this->version);
+
+        return $version[0];
+    }
+
+    /*
+     * TODO: Write function description.
+     */
+    public function getMinorAttribute(): string
+    {
+        $version = explode('.', $this->version);
+
+        return $version[1];
+    }
+
+    /*
+     * TODO: Write function description.
+     */
+    public function getPatchAttribute(): string
+    {
+        $version = explode('.', $this->version);
+
+        return $version[2];
+    }
+
+    /*
+     * TODO: Write function description.
+     */
     public function addStatistic($type, $ipAddress): bool
     {
         if ($type !== 'web' && $type !== 'ingame' && $type !== 'update') {
