@@ -19,6 +19,7 @@ Route::get('/2', [ApiV2Controller::class, 'index'])->name('api.v2.index');
 Route::get('/3', [ApiV3Controller::class, 'index'])->name('api.v3.index');
 
 Route::get('/3/auth.php', [ApiV3Controller::class, 'auth'])->name('api.v3.auth');
+Route::post('/3/auth.php', [ApiV3Controller::class, 'unfinished']);
 
 Route::get('/3/authCheck.php', [ApiV3Controller::class, 'authCheck'])->name('api.v3.authCheck');
 
@@ -28,6 +29,7 @@ Route::get('/2/changelog.php', [ApiV2Controller::class, 'changelog'])->name('api
 Route::get('/3/changelog.php', [ApiV3Controller::class, 'unfinished'])->name('api.v3.changelog');
 
 Route::get('/3/daa.php', [ApiV3Controller::class, 'unfinished'])->name('api.v3.daa');
+Route::post('/3/daa.php', [ApiV3Controller::class, 'unfinished']);
 
 Route::get('/3/docs.php', [ApiV3Controller::class, 'docs'])->name('api.v3.docs');
 
@@ -44,5 +46,6 @@ Route::get('/3/repository.php', [ApiV3Controller::class, 'unfinished'])->name('a
 Route::get('/3/serverStats.php', [ApiV3Controller::class, 'unfinished'])->name('api.v3.serverStats');
 
 Route::get('/3/stats.php', [ApiV3Controller::class, 'unfinished'])->name('api.v3.stats');
+Route::post('/3/stats.php', [ApiV3Controller::class, 'unfinished']);
 
 Route::fallback([ApiV3Controller::class, 'nonexistent']);
