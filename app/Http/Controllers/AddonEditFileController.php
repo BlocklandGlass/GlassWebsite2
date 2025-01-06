@@ -37,13 +37,16 @@ class AddonEditFileController extends Controller
             ]);
         }
 
+        $upload = $addon->addon_uploads?->last();
+
         $completed = [
             'screenshots' => $addon->addon_screenshots?->count() > 0 ?? false,
-            'file' => false, // TODO: Detect if file is uploaded.
+            'file' => $upload !== null,
         ];
 
         return view('addons.edit.file')->with([
             'addon' => $addon,
+            'upload' => $upload,
             'completed' => $completed,
             'maxFileSize' => $this->maxFileSize,
         ]);
@@ -74,68 +77,125 @@ class AddonEditFileController extends Controller
             ]);
         }
 
+        if (! $addon->is_draft && $addon->latest_approved_addon_upload === null) {
+            return back()->withErrors([
+                'This add-on is not in a draft state.',
+            ]);
+        }
+
+        $disk = Storage::disk('addons');
+
+        $upload = $addon->addon_uploads?->last();
+
+        if (request('delete') === '1') {
+            if (! $addon->is_draft) {
+                return back()->withErrors([
+                    'This add-on is not in a draft state.',
+                ]);
+            }
+
+            if ($upload === null) {
+                return back()->withErrors([
+                    'The file does not exist.',
+                ]);
+            }
+
+            $disk->delete($upload->file_path);
+            $upload->delete();
+
+            return back()->with('success', 'The file has been deleted.');
+        }
+
+        if ($upload !== null && $upload->review_status === 'pending') {
+            return back()->withErrors([
+                'The file is already pending review.',
+            ]);
+        }
+
+        request()->validate([
+            'version' => ['semver'],
+            'version.*' => ['required'],
+            'file' => ['required', 'max:'.($this->maxFileSize * 1000), 'mimetypes:application/zip', 'addon', 'defaultaddon', 'uniqueaddon'],
+        ], [
+            'version.semver' => 'The version number is invalid.',
+            'file.required' => 'The file is missing.',
+            'file.max' => 'The file is too big.',
+            'file.mimetypes' => 'The file is not a .zip file.',
+            'file.addon' => 'The file name is not in the correct format.',
+            'file.defaultaddon' => 'The file name is already in use by a default add-on.',
+            'file.uniqueaddon' => 'The file name is already in use by another add-on.',
+        ]);
+
         $file = request()->file('file');
         $fileName = $file->getClientOriginalName();
 
-        $unique = ! (AddonUpload::where('file_name', $fileName)->exists());
+        $tmpFilePath = $disk->putFile('tmp', $file);
+        $tmpFolderPath = $tmpFilePath.'_extracted';
 
-        if (! $unique) {
+        $newFileName = basename($tmpFilePath);
+
+        if (! $tmpFilePath) {
             return back()->withErrors([
-                'This add-on\'s file name is already in use.',
+                'The file could not be saved.',
             ]);
         }
 
-        $path = Storage::disk('addons')->putFile('uploads', $file);
+        $fullTmpFilePath = Storage::disk('addons')->path($tmpFilePath);
+        $fullTmpFolderPath = $fullTmpFilePath.'_extracted';
 
-        $zip = new \ZipArchive();
+        $zip = new \ZipArchive;
 
-        if ($zip->open(Storage::disk('addons')->path($path), \ZipArchive::CHECKCONS) !== true) {
-            Storage::disk('addons')->delete($path);
+        if ($zip->open($fullTmpFilePath, \ZipArchive::CHECKCONS) !== true) {
+            $disk->delete($tmpFilePath);
 
             return back()->withErrors([
-                'The .zip file could not be opened.',
+                'The file could not be opened.',
             ]);
         }
 
-        $tmpSrcPath = 'tmp/'.$fileName;
-        $tmpSrcPath2 = Storage::path($tmpSrcPath);
-        $tmpDestPath = 'tmp/injected/'.$fileName;
-        $tmpDestPath2 = Storage::path($tmpDestPath);
-
-        if (! Storage::exists('tmp/injected')) {
-            Storage::makeDirectory('tmp/injected');
-        }
-
-        if (Storage::exists($tmpSrcPath)) {
-            Storage::deleteDirectory($tmpSrcPath);
-        }
-
-        $zip->extractTo($tmpSrcPath2);
-
+        $zip->extractTo($fullTmpFolderPath);
         $zip->close();
 
-        if (Storage::exists($tmpSrcPath.'/version.json') || Storage::exists($tmpSrcPath.'/version.txt')) {
-            Storage::disk('addons')->delete($path);
-            Storage::deleteDirectory($tmpSrcPath);
+        $errors = $this->scanAndClean($fullTmpFolderPath);
 
-            return back()->withErrors([
-                'You must remove the existing version file.',
-            ])->withInput();
+        if ($disk->fileExists($tmpFolderPath.'/version.json') || $disk->fileExists($tmpFolderPath.'/version.txt')) {
+            $errors[] = 'You must remove the existing version.json and/or version.txt file.';
         }
 
+        if (! $disk->fileExists($tmpFolderPath.'/description.txt')) {
+            $errors[] = 'You must add a description.txt file.';
+        }
+
+        if (count($errors) > 0) {
+            $disk->delete($tmpFilePath);
+            $disk->deleteDirectory($tmpFolderPath);
+
+            return back()->withErrors($errors);
+        }
+
+        $version = request('version');
+        $version = $version['major'].'.'.$version['minor'].'.'.$version['patch'];
+
         $versionJson = [
-            'version' => implode('.', [1, 0, 0]), // TODO: Versioning.
+            'version' => $version,
             'channel' => 'stable',
             'repositories' => [
                 [
-                    'url' => str_ireplace('https', 'http', route('api.v2.repository')),
+                    'url' => str_ireplace('https://', 'http://', route('api.v2.repository')),
                     'format' => 'JSON',
                     'id' => $id,
                 ],
             ],
         ];
 
-        Storage::put($tmpSrcPath.'/version.json', json_encode($versionJson, JSON_PRETTY_PRINT));
+        if (! $disk->put($tmpFolderPath.'/version.json', json_encode($versionJson, JSON_PRETTY_PRINT))) {
+            $disk->delete($tmpFilePath);
+            $disk->deleteDirectory($tmpFolderPath);
+
+            return back()->withErrors([
+                'Failed to create version.json',
+            ]);
+        }
 
         $glassJson = [
             'formatVersion' => 2,
@@ -144,27 +204,140 @@ class AddonEditFileController extends Controller
             'filename' => $fileName,
         ];
 
-        Storage::put($tmpSrcPath.'/glass.json', json_encode($glassJson));
+        if (! $disk->put($tmpFolderPath.'/glass.json', json_encode($glassJson))) {
+            $disk->delete($tmpFilePath);
+            $disk->deleteDirectory($tmpFolderPath);
 
-        $this->zip($tmpSrcPath2, $tmpDestPath2);
+            return back()->withErrors([
+                'Failed to create glass.json',
+            ]);
+        }
 
-        Storage::deleteDirectory($tmpSrcPath);
+        $newFullFilePath = $disk->path($newFileName);
 
-        Storage::disk('addons')->delete($path);
+        $this->zip($fullTmpFolderPath, $newFullFilePath);
 
-        Storage::move($tmpDestPath, 'addons/'.$path);
-
-        Storage::delete($tmpDestPath);
+        $disk->delete($tmpFilePath);
+        $disk->deleteDirectory($tmpFolderPath);
 
         AddonUpload::create([
             'addon_id' => $id,
             'file_name' => $fileName,
-            'file_size' => Storage::disk('addons')->size($path),
-            'file_path' => $path,
-            'version' => '1.0.0', // TODO: Versioning.
+            'file_size' => Storage::disk('addons')->size($newFileName),
+            'file_path' => $newFileName,
+            'version' => $version,
             'restart_required' => false,
+            'changelog' => '', // TODO: Changelogs.
+            'review_status' => 'pending',
         ]);
 
-        return back();
+        return back()->with('success', 'The file has been uploaded.');
+    }
+
+    /**
+     * TODO: Write function description.
+     */
+    private function scanAndClean(string $fullFolderPath): array
+    {
+        $errors = [];
+
+        $badExtensions = [
+            'exe',
+            'sh',
+            'ps1',
+            'psm1',
+            'bat',
+            'cmd',
+            'vbs',
+            'js',
+            'wsf',
+            'hta',
+            'py',
+            'msi',
+            'dll',
+            'com',
+            'scr',
+            'jar',
+            'reg',
+            'lnk',
+            'url',
+            'html',
+            'htm',
+            'iso',
+            'apk',
+            'zip',
+            '7z',
+            'rar',
+            'gz',
+            'bz2',
+            'tgz',
+            'tar',
+            'iso',
+            'cab',
+            'deb',
+        ];
+
+        $dirsPendingDeletion = [];
+        $filesPendingDeletion = [];
+
+        $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($fullFolderPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($objects as $object) {
+            $objectName = strtolower($object->getFilename());
+
+            $objectPath = $object->getPathname();
+
+            if (is_dir($object)) {
+                if ($objectName === '__macosx') {
+                    $dirsPendingDeletion[] = $objectPath;
+                }
+            } else {
+                if ($objectName === 'thumbs.db' || $objectName === '.ds_store') {
+                    $filesPendingDeletion[] = $objectPath;
+
+                    continue;
+                }
+
+                $extension = strtolower($object->getExtension());
+
+                if (in_array($extension, $badExtensions)) {
+                    $errors[] = $object->getFilename().' is not allowed.';
+                }
+            }
+        }
+
+        foreach ($dirsPendingDeletion as $path) {
+            $this->rrmdir($path);
+        }
+
+        foreach ($filesPendingDeletion as $path) {
+            unlink($path);
+        }
+
+        return $errors;
+    }
+
+    /**
+     * TODO: Write function description.
+     */
+    private function rrmdir(string $fullFolderPath): void
+    {
+        if ($fullFolderPath === '' || $fullFolderPath === DIRECTORY_SEPARATOR) {
+            return;
+        }
+
+        if (is_dir($fullFolderPath)) {
+            $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($fullFolderPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+
+            foreach ($objects as $object) {
+                if (is_dir($object)) {
+                    rmdir($object);
+                } else {
+                    unlink($object);
+                }
+            }
+
+            rmdir($fullFolderPath);
+        }
     }
 }

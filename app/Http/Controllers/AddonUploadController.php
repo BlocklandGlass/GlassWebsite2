@@ -30,6 +30,12 @@ class AddonUploadController extends Controller
      */
     public function store(): RedirectResponse
     {
+        if (config('app.env') === 'production') {
+            return back()->withErrors([
+                'This feature is not ready yet.',
+            ]);
+        }
+
         $bargainBinId = AddonBoard::where('name', 'Bargain Bin')->first()->id;
 
         request()->validate([

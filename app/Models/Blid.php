@@ -71,7 +71,7 @@ class Blid extends Model
 
             curl_close($ch);
         } catch (\Throwable $e) {
-            Log::debug('Authentication FAILED: "'.$steamId.'" with BLID '.$blid.' ('.$e->getMessage().')');
+            Log::debug('BLID Authentication FAILED: "'.$steamId.'" with BLID '.$blid.' ('.$e->getMessage().')');
 
             return ['success' => false, 'name' => null];
         }
@@ -81,12 +81,12 @@ class Blid extends Model
 
         if ($success) {
             if ($name !== null) {
-                Log::debug('Authentication SUCCESS: "'.$steamId.'" with BLID '.$blid.' ('.$name.')');
+                Log::debug('BLID Authentication SUCCESS: "'.$steamId.'" with BLID '.$blid.' ('.$name.')');
             } else {
-                Log::debug('Authentication SUCCESS: "'.$steamId.'" with BLID '.$blid);
+                Log::debug('BLID Authentication SUCCESS: "'.$steamId.'" with BLID '.$blid);
             }
         } else {
-            Log::debug('Authentication FAILED: "'.$steamId.'" with BLID '.$blid);
+            Log::debug('BLID Authentication FAILED: "'.$steamId.'" with BLID '.$blid);
         }
 
         return [

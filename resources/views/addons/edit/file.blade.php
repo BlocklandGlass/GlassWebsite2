@@ -74,16 +74,53 @@
                 <div class="formSection">
                     <div class="formHeader">Add-On File</div>
                     <div class="formBody">
-                        <input accept=".zip" type="file" name="file" required>
+                        <fieldset>
+                            Enter the current version of the add-on:
+                            <br />
+                            <br />
+                            @if ($upload === null)
+                                <input class="input" name="version[major]" value="{{ old('version.major') }}" type="number" placeholder="1" min="0" step="1" autocomplete="off" required>
+                                .
+                                <input class="input" name="version[minor]" value="{{ old('version.minor') }}" type="number" placeholder="0" min="0" step="1" autocomplete="off" required>
+                                .
+                                <input class="input" name="version[patch]" value="{{ old('version.patch') }}" type="text" placeholder="0" autocomplete="off" required>
+                            @else
+                                <input class="input" name="version[major]" value="{{ $upload->major }}" type="number" disabled>
+                                .
+                                <input class="input" name="version[minor]" value="{{ $upload->minor }}" type="number" disabled>
+                                .
+                                <input class="input" name="version[patch]" value="{{ $upload->patch }}" type="text" disabled>
+                            @endif
+                            <br />
+                            <br />
+                            <small>See the semantic versioning syntax (<a href="https://semver.org/spec/v2.0.0.html" class="link" target="_blank" rel="noopener">SemVer 2.0.0</a>) for more information.</small>
+                        </fieldset>
                         <br />
-                        <small>The file name must follow the add-on naming convention in Blockland e.g. <strong>Weapon_Rocket_Launcher.zip</strong></small>
-                        <br />
-                        <small>There is a file size limit of <strong>{{ $maxFileSize }} MB</strong>.</small>
+                        <fieldset>
+                            <label for="file">Upload the add-on:</label>
+                            <br />
+                            <br />
+                            @if ($upload === null)
+                                <input id="file" accept=".zip" type="file" name="file" required>
+                            @else
+                                <strong>{{ $upload->file_name }}</strong>
+                                @if ($addon->is_draft)
+                                    <button class="button" type="submit" name="delete" value="1">
+                                        <i class="bx bxs-trash"></i>
+                                    </button>
+                                @endif
+                            @endif
+                            <br />
+                            <br />
+                            <small>The file name must follow the add-on naming convention in Blockland e.g. <strong>Weapon_Rocket_Launcher.zip</strong></small>
+                            <br />
+                            <small>There is a file size limit of <strong>{{ $maxFileSize }} MB</strong>.</small>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs center-xs">
-                        <button type="submit">Upload</button>
+                        <button type="submit" @if ($upload !== null) disabled @endif>Upload</button>
                     </div>
                 </div>
             </form>

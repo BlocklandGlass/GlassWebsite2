@@ -31,7 +31,7 @@ class AddonEditPublishController extends Controller
 
         $completed = [
             'screenshots' => $addon->addon_screenshots?->count() > 0 ?? false,
-            'file' => false, // TODO: Detect if file is uploaded.
+            'file' => $addon->addon_uploads?->last() ?? false,
         ];
 
         return view('addons.edit.publish')->with([

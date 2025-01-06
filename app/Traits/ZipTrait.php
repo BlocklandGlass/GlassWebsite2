@@ -20,18 +20,13 @@ trait ZipTrait
         $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
 
         if (is_dir($source) === true) {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
 
             foreach ($files as $file) {
                 $file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
                 $file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 
-                if ($file == '.' || $file == '..' || empty($file) || $file == DIRECTORY_SEPARATOR) {
-                    continue;
-                }
-
-                // Ignore "." and ".." folders
-                if (in_array(substr($file, strrpos($file, DIRECTORY_SEPARATOR) + 1), ['.', '..'])) {
+                if (empty($file) || $file == DIRECTORY_SEPARATOR) {
                     continue;
                 }
 

@@ -92,7 +92,11 @@
                     <div class="formHeader">Add-On Details</div>
                     <div class="formBody">
                         <label for="name">Enter the name of the add-on:</label>
-                        <input class="input" id="name" name="name" value="{{ old('name', $addon->name) }}" type="text" placeholder="Rocket Launcher" maxlength="50" required>
+                        @if (! $completed['file'])
+                            <input class="input" id="name" name="name" value="{{ old('name', $addon->name) }}" type="text" placeholder="Rocket Launcher" maxlength="50" required>
+                        @else
+                            <input class="input" id="name" name="name" value="{{ $addon->name }}" type="text" disabled>
+                        @endif
                         <label for="summary">Enter a brief summary of the add-on:</label>
                         <input class="input" id="summary" name="summary" value="{{ old('summary', $addon->summary) }}" type="text" placeholder="A weapon that fires rockets." maxlength="80" required>
                         <label for="description">Enter a detailed description of the add-on:</label>

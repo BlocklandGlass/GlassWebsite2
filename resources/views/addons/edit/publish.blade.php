@@ -73,11 +73,37 @@
                 @csrf
                 <div class="formSection">
                     <div class="formHeader">Add-On Publish</div>
-                    <div class="formBody"></div>
+                    <div class="formBody">
+                        @if ($addon->is_draft)
+                            @if ($completed['file'])
+                                Publishing the add-on will take it out of the draft state, make it semi-public and submit it for inspection.
+                                <br />
+                                <br />
+                                During the inspection stage, the add-on will not be displayed publicly, and you will be unable to make any further changes unless you <em>Unpublish</em> the add-on.
+                                <br />
+                                <br />
+                                If the add-on is approved, it will be publicly displayed on the website and the in-game Mod Manager, and you will be able to make changes again without the draft state requirement.
+                                <br />
+                                <br />
+                                Click <strong>Publish</strong> when ready.
+                            @else
+                                The add-on is not yet ready for publishing, please complete all previous sections marked with an <i class="bx bx-x" style="color: #b31515;"></i>
+                            @endif
+                        @else
+                            The add-on is published and is awaiting inspection.
+                            <br />
+                            <br />
+                            Unpublishing the add-on will put it back in the draft state.
+                        @endif
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs center-xs">
-                        <button type="submit" disabled>Publish</button>
+                        @if ($addon->is_draft)
+                            <button type="submit" disabled>Publish</button>
+                        @else
+                            <button type="submit" disabled>Unpublish</button>
+                        @endif
                     </div>
                 </div>
             </form>

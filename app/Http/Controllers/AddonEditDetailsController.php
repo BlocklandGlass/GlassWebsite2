@@ -35,7 +35,7 @@ class AddonEditDetailsController extends Controller
 
         $completed = [
             'screenshots' => $addon->addon_screenshots?->count() > 0 ?? false,
-            'file' => false, // TODO: Detect if file is uploaded.
+            'file' => $addon->addon_uploads?->last() ?? false,
         ];
 
         return view('addons.edit.details')->with([
@@ -72,13 +72,25 @@ class AddonEditDetailsController extends Controller
 
         request()->validate([
             'board' => 'required|integer|exists:App\Models\AddonBoard,id|not_in:'.$bargainBinId,
-            'name' => 'required|string|max:50',
+            'name' => 'sometimes|required|string|max:50',
             'summary' => 'required|string|max:80',
             'description' => 'required|string|max:2000',
         ]);
 
         $addon->addon_board_id = request('board');
-        $addon->name = request('name');
+
+        if (request()->has('name')) {
+            $upload = $addon->addon_uploads?->last();
+
+            if ($upload !== null) {
+                return back()->withErrors([
+                    'This add-on has an uploaded file, the name can no longer be changed.',
+                ]);
+            }
+
+            $addon->name = request('name');
+        }
+
         $addon->summary = request('summary');
         $addon->description = request('description');
 
