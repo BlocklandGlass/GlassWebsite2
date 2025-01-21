@@ -49,7 +49,6 @@ class AddonEditScreenshotsController extends Controller
             'completed' => $completed,
             'maxScreenshots' => $this->maxScreenshots,
             'maxScreenshotSize' => $this->maxScreenshotSize,
-            'limited' => false,
         ]);
     }
 
@@ -60,7 +59,7 @@ class AddonEditScreenshotsController extends Controller
     {
         $addon = Addon::where('id', $id)->withTrashed()->first();
 
-        if ($addon == null) {
+        if ($addon === null) {
             return back()->withErrors([
                 'This add-on does not exist.',
             ]);

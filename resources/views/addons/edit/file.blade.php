@@ -54,7 +54,7 @@
                 @slot('optional', false)
             @endcomponent
         </div>
-        @if ($addon->is_draft)
+        @if ($addon->latest_approved_addon_upload === null)
             <div class="col-xs center-xs">
                 @component('components.addons.formtab')
                     @slot('route', route('addons.edit.publish', ['id' => $addon->id], false))

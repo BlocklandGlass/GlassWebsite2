@@ -54,7 +54,7 @@
                 @slot('optional', false)
             @endcomponent
         </div>
-        @if ($addon->is_draft)
+        @if ($addon->latest_approved_addon_upload === null)
             <div class="col-xs center-xs">
                 @component('components.addons.formtab')
                     @slot('route', route('addons.edit.publish', ['id' => $addon->id], false))
@@ -76,13 +76,13 @@
                     <div class="formBody">
                         @if ($addon->is_draft)
                             @if ($completed['file'])
-                                Publishing the add-on will take it out of the draft state, make it semi-public and submit it for inspection.
+                                Publishing the add-on will take it out of the draft state, making it semi-public and submitting it for inspection.
                                 <br />
                                 <br />
-                                During the inspection stage, the add-on will not be displayed publicly, and you will be unable to make any further changes unless you <em>Unpublish</em> the add-on.
+                                During the inspection stage, the add-on will not be displayed publicly, and you will be unable to make any further file changes unless you <em>Unpublish</em> the add-on.
                                 <br />
                                 <br />
-                                If the add-on is approved, it will be publicly displayed on the website and the in-game Mod Manager, and you will be able to make changes again without the draft state requirement.
+                                If the add-on is approved, it will be advertised on the website and the in-game Mod Manager, and you will be able to make file changes again (without the draft state requirement).
                                 <br />
                                 <br />
                                 Click <strong>Publish</strong> when ready.

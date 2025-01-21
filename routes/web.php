@@ -31,7 +31,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('home');
 
-Route::view('/addons', 'addons.index')->name('addons');
+// Route::view('/addons', 'addons.index')->name('addons');
+Route::get('/addons', function () {
+    return redirect()->route('addons.boards');
+})->name('addons'); // TODO: Temporary, finish page before removing.
 
 Route::get('/addons/addon', function () {
     return redirect()->route('addons');

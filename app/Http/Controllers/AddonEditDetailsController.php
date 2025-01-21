@@ -43,9 +43,6 @@ class AddonEditDetailsController extends Controller
             'boards' => $boards,
             'completed' => $completed,
             'maxCharacterLength' => 2000,
-            'maxScreenshots' => 3,
-            'maxFileSize' => 10000,
-            'maxScreenshotSize' => 100,
         ]);
     }
 
@@ -71,13 +68,21 @@ class AddonEditDetailsController extends Controller
         $bargainBinId = AddonBoard::where('name', 'Bargain Bin')->first()->id;
 
         request()->validate([
-            'board' => 'required|integer|exists:App\Models\AddonBoard,id|not_in:'.$bargainBinId,
+            'board' => 'sometimes|required|integer|exists:App\Models\AddonBoard,id|not_in:'.$bargainBinId,
             'name' => 'sometimes|required|string|max:50',
             'summary' => 'required|string|max:80',
             'description' => 'required|string|max:2000',
         ]);
 
-        $addon->addon_board_id = request('board');
+        if (request()->has('board')) {
+            if ($addon->latest_approved_addon_upload !== null) {
+                return back()->withErrors([
+                    'This add-on has been approved, the board can no longer be changed.',
+                ]);
+            }
+
+            $addon->addon_board_id = request('board');
+        }
 
         if (request()->has('name')) {
             $upload = $addon->addon_uploads?->last();
