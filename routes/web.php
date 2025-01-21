@@ -78,6 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/addons/edit/{id}/file', [AddonEditFileController::class, 'show'])->where('id', '\d+')->name('addons.edit.file');
         Route::post('/addons/edit/{id}/file', [AddonEditFileController::class, 'store'])->where('id', '\d+');
         Route::get('/addons/edit/{id}/publish', [AddonEditPublishController::class, 'show'])->where('id', '\d+')->name('addons.edit.publish');
+        Route::post('/addons/edit/{id}/publish', [AddonEditPublishController::class, 'store'])->where('id', '\d+');
     });
 
     Route::get('/my-account', [MyAccountController::class, 'show'])->name('my-account');

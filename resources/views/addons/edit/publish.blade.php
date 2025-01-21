@@ -100,9 +100,13 @@
                 <div class="row">
                     <div class="col-xs center-xs">
                         @if ($addon->is_draft)
-                            <button type="submit" disabled>Publish</button>
+                            @if ($completed['file'])
+                                <button type="submit">Publish</button>
+                            @else
+                                <button type="submit" disabled>Publish</button>
+                            @endif
                         @else
-                            <button type="submit" disabled>Unpublish</button>
+                            <button type="submit">Unpublish</button>
                         @endif
                     </div>
                 </div>

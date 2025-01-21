@@ -77,7 +77,7 @@ class AddonEditFileController extends Controller
             ]);
         }
 
-        if (! $addon->is_draft && $addon->latest_approved_addon_upload === null) {
+        if (! $addon->is_draft) { // TODO: Updates ( && $addon->latest_approved_addon_upload === null )
             return back()->withErrors([
                 'This add-on is not in a draft state.',
             ]);
@@ -227,7 +227,7 @@ class AddonEditFileController extends Controller
             'file_path' => $newFileName,
             'version' => $version,
             'restart_required' => false,
-            'changelog' => '', // TODO: Changelogs.
+            'changelog' => $addon->latest_approved_addon_upload === null ? 'Initial upload.' : '', // TODO: Changelogs.
             'review_status' => 'pending',
         ]);
 
