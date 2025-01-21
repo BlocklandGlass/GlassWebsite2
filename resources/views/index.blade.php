@@ -9,18 +9,6 @@
         <a href="{{ route('addons.addon', ['id' => 11], false) }}" class="btn blue">Download</a><a href="{{ route('addons', [], false) }}" class="btn yellow">Add-Ons</a>
     </div>
     <div>
-        <h3>A New Beginning</h3>
-        <p>
-            Welcome to the new Blockland Glass website. If you haven't heard about the data breach that occurred in April 2023, <a href="{{ route('news', [], false) }}" class="link">please click here for further details</a>.
-        </p>
-        <p>
-            This website has been rewritten from scratch to follow modern security practices and now uses a proper web framework called Laravel.
-        </p>
-        <p>
-            We apologize for the distress that the data breach has caused and know there is nothing we can do to make up for it other than to keep working on restoring most of the service back to normal.
-        </p>
-    </div>
-    <div>
         <h3>What's Glass?</h3>
         <p>
             Blockland Glass is a service made for <a href="https://blockland.us" target="_blank" rel="noreferrer" class="link">Blockland</a> to help expand and cultivate the community. Glass acts as a content platform offering the ability to download Glass add-ons in-game and manage your server's preferences.
